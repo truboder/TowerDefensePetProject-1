@@ -21,19 +21,12 @@ public class EnemyPath : MonoBehaviour
         return positions;
     }
 
-    public void AddWaypoint(Transform newWaypoint)
-    {
-        waypoints.Add(newWaypoint);
-    }
-
-    public void RemoveWaypoint(Transform waypointToRemove)
-    {
-        waypoints.Remove(waypointToRemove);
-    }
-
     private void OnDrawGizmos()
     {
-        if (!drawGizmos || waypoints == null || waypoints.Count < 2)
+        int minPointCount = 2;
+        float gizmosSphereSize = 0.2f;
+
+        if (!drawGizmos || waypoints == null || waypoints.Count < minPointCount)
         {
             return;
         }
@@ -52,7 +45,7 @@ public class EnemyPath : MonoBehaviour
         {
             if (waypoint != null)
             {
-                Gizmos.DrawSphere(waypoint.position, 0.2f);
+                Gizmos.DrawSphere(waypoint.position, gizmosSphereSize);
             }
         }
     }
