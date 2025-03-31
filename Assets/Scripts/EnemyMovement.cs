@@ -7,13 +7,18 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _waypointBorder = 0.1f;
 
-    [Header("Path Reference")]
-    [SerializeField] private EnemyPath _enemyPath;
+    private EnemyPath _enemyPath;
 
     private int _currentWaypointIndex = 0;
     private List<Vector3> _waypoints;
     private bool _hasPath = false;
     private bool _isMoving = true;
+
+    private void Awake()
+    {
+        EnemyPath enemyPath = Container.Instance.Get<EnemyPath>();
+        Construct(enemyPath);
+    }
 
     private void Start()
     {
@@ -47,6 +52,11 @@ public class EnemyMovement : MonoBehaviour
         _hasPath = true;
         transform.position = _waypoints[0];
         _currentWaypointIndex = 1;
+    }
+
+    private void Construct(EnemyPath enemyPath)
+    {
+        _enemyPath = enemyPath;
     }
 
     private void MoveAlongPath()
