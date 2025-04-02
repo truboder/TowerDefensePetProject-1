@@ -13,7 +13,6 @@ public class EnemySpawner : MonoBehaviour
     {
         if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
         {
-            Debug.LogError("Spawn settings not configured!");
             return;
         }
 
