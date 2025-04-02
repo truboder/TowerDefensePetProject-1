@@ -3,21 +3,7 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("General settings")]
-    [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField] private Transform _spawnPoint;
-
-    [Header("Pool settings")]
-    [SerializeField] private int _initialPoolSize = 10;
-    [SerializeField] private int _maxPoolSize = 15;
-
-    [Header("Spawn settings")]
-    [SerializeField] private int _wavesCount = 5;
-    [SerializeField] private int _enemiesPerWave = 5;
-    [SerializeField] private float _delayBetweenWaves = 3f;
-    [SerializeField] private float _spawnDelayInWave = 1f;
-    [SerializeField] private int _totalEnemiesToSpawn = 20;
-    [SerializeField] private bool _infiniteWaves = false;
+    [SerializeField] private EnemySpawnSettings _spawnSettings;
 
     private ComponentPool<Enemy> _pool;
     private int _spawnedCount = 0;
@@ -25,12 +11,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        if (_enemyPrefab == null)
+        if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
         {
+            Debug.LogError("Spawn settings not configured!");
             return;
         }
 
-        _pool = new ComponentPool<Enemy>(_enemyPrefab, transform);
+        _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, transform);
         PrewarmPool();
     }
 
@@ -41,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void PrewarmPool()
     {
-        for (int i = 0; i < _initialPoolSize; i++)
+        for (int i = 0; i < _spawnSettings.InitialPoolSize; i++)
         {
             Enemy enemy = _pool.Get();
             _pool.Return(enemy);
@@ -50,35 +37,41 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator WaveSpawner()
     {
-        while (_infiniteWaves || _currentWave < _wavesCount)
+        while (_spawnSettings.InfiniteWaves|| _currentWave < _spawnSettings.Waves.Count)
         {
-            _currentWave++;
+            var wave = GetCurrentWave();           
 
-            for (int i = 0; i < _enemiesPerWave; i++)
+            for (int i = 0; i < wave.EnemyCount; i++)
             {
-                if (_spawnedCount >= _maxPoolSize) break;
+                if (_spawnedCount >= _spawnSettings.MaxPoolSize) break;
 
                 SpawnSingleEnemy();
-                yield return new WaitForSeconds(_spawnDelayInWave);
+                yield return new WaitForSeconds(wave.SpawnInterval);
             }
 
-            if (!_infiniteWaves && _currentWave < _wavesCount)
-            {
-                yield return new WaitForSeconds(_delayBetweenWaves);
-            }
-            else if (_infiniteWaves)
-            {
-                yield return new WaitForSeconds(_delayBetweenWaves);
-            }
+            if (!ShouldSpawnNextWave()) yield break;
+
+            yield return new WaitForSeconds(wave.DelayAfterWave);
+            _currentWave++;
         }
+    }
+
+    private EnemyWaveConfig GetCurrentWave()
+    {
+        if (_spawnSettings.InfiniteWaves)
+            return _spawnSettings.Waves[1];
+
+        return _spawnSettings.Waves[_currentWave];
+    }
+
+    private bool ShouldSpawnNextWave()
+    {
+        return _spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count - 1;
     }
 
     private void SpawnSingleEnemy()
     {
-        if (_spawnedCount >= _maxPoolSize) return;
-
-        var enemy = _pool.Get();
-        enemy.transform.position = _spawnPoint != null ? _spawnPoint.position : transform.position;
+        Enemy enemy = _pool.Get();
         _spawnedCount++;
     }
 
