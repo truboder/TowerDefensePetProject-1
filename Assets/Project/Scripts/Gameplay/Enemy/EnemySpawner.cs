@@ -36,9 +36,9 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator WaveSpawner()
     {
-        while (_spawnSettings.InfiniteWaves|| _currentWave < _spawnSettings.Waves.Count)
+        while (_spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count)
         {
-            var wave = GetCurrentWave();           
+            var wave = GetCurrentWave();
 
             for (int i = 0; i < wave.EnemyCount; i++)
             {
