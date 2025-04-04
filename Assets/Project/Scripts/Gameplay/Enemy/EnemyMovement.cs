@@ -17,7 +17,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Awake()
     {
-        EnemyPath enemyPath = Container.Instance.Get<EnemyPath>();
+        var enemyPath = Container.Instance.Get<ILevelDataService>().GetEnemyPath();
         Construct(enemyPath);
     }
 
@@ -28,7 +28,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!_hasPath || !_isMoving) 
+        if (!_hasPath || !_isMoving)
         {
             return;
         }
@@ -36,7 +36,7 @@ public class EnemyMovement : MonoBehaviour
         MoveAlongPath();
     }
 
-    private void InitializePath()
+    public void InitializePath()
     {
         if (_enemyPath == null)
         {
@@ -55,7 +55,7 @@ public class EnemyMovement : MonoBehaviour
         _currentWaypointIndex = 1;
     }
 
-    private void Construct(EnemyPath enemyPath)
+    public void Construct(EnemyPath enemyPath)
     {
         _enemyPath = enemyPath;
     }
