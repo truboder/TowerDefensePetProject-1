@@ -38,11 +38,14 @@ public class EnemySpawnSystem
 
     private void StartWaveSpawning()
     {
+
         _coroutineRunner.StartCoroutine(WaveSpawner());
     }
 
     private IEnumerator WaveSpawner()
     {
+        //yield return new WaitForSeconds(2f);
+
         while (_spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count)
         {
             var wave = GetCurrentWave();

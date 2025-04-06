@@ -7,9 +7,11 @@ public class LevelDataInitializer : MonoBehaviour
 
     private ILevelDataService _levelDataService;
 
-    public void Construct(ILevelDataService levelDataService)
+    private void Awake()
     {
-        _levelDataService = levelDataService;
+        var levelDataService = Container.Instance.Get<ILevelDataService>();
+        levelDataService.SetEnemySpawnPoint(_spawnPoint);
+        levelDataService.SetEnemyPath(_enemyPath);
     }
 
     private void Start()
@@ -24,5 +26,10 @@ public class LevelDataInitializer : MonoBehaviour
     private void OnDestroy()
     {
         _levelDataService?.ResetLevelData();
+    }
+
+    public void Construct(ILevelDataService levelDataService)
+    {
+        _levelDataService = levelDataService;
     }
 }

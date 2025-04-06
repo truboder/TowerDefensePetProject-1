@@ -92,8 +92,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void PathCompleted()
     {
-        var spawnSystem = Container.Instance.Get<EnemySpawnSystem>();
+        EnemySpawnSystem spawnSystem = Container.Instance.Get<EnemySpawnSystem>();
         spawnSystem.ReturnEnemy(GetComponent<Enemy>());
+        //Destroy(gameObject);
     }
 
     public void StopMovement(bool stop = false)

@@ -123,6 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 10
   _waypointBorder: 0.1
+  _prefab: {fileID: 7905898922593811730}
 --- !u!114 &7905898922593811730
 MonoBehaviour:
   m_ObjectHideFlags: 0
