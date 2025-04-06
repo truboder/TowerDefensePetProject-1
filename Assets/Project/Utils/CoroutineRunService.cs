@@ -9,7 +9,6 @@ public class CoroutineRunService : ICoroutineRunService
     {
         var holderObject = new GameObject("CoroutineHolder");
         _coroutineHolder = holderObject.AddComponent<CoroutineHolder>();
-        Object.DontDestroyOnLoad(holderObject);
     }
 
     public Coroutine StartCoroutine(IEnumerator routine) => _coroutineHolder.StartCoroutine(routine);
