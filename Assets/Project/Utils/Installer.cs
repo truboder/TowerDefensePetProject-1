@@ -7,7 +7,6 @@ public class Installer : MonoBehaviour
 
     private void Awake()
     {
-        // Регистрируем сервисы
         var coroutineService = new CoroutineRunService();
         Container.Instance.Register<ICoroutineRunService>(coroutineService);
 
