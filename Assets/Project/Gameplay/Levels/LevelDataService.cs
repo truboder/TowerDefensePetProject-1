@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelDataService : MonoBehaviour, ILevelDataService
+public class LevelDataService : ILevelDataService
 {
     private Transform _spawnPoint;
     private EnemyPath _enemyPath;
 
-    public void Initialize(Transform spawnPoint, EnemyPath enemyPath)
-    {
-        _spawnPoint = spawnPoint;
-        _enemyPath = enemyPath;
-    }
-
-    public Vector3 GetSpawnPosition() => _spawnPoint.position;
+    public Vector3 GetSpawnPosition() => _spawnPoint?.position ?? Vector3.zero;
     public EnemyPath GetEnemyPath() => _enemyPath;
+
+    public void SetEnemySpawnPoint(Transform spawnPoint) => _spawnPoint = spawnPoint;
+    public void SetEnemyPath(EnemyPath enemyPath) => _enemyPath = enemyPath;
+    public void ResetLevelData()
+    {
+        _spawnPoint = null;
+        _enemyPath = null;
+    }
 }

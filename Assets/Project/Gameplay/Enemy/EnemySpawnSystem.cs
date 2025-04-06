@@ -11,11 +11,11 @@ public class EnemySpawnSystem
     private int _spawnedCount = 0;
     private int _currentWave = 0;
 
-    public EnemySpawnSystem(EnemySpawnSettings spawnSettings, ICoroutineRunService coroutineRunner, ILevelDataService levelData)
+    public EnemySpawnSystem(EnemySpawnSettings spawnSettings)
     {
         _spawnSettings = spawnSettings;
-        _coroutineRunner = coroutineRunner;
-        _levelData = levelData;
+        _coroutineRunner = Container.Instance.Get<ICoroutineRunService>();
+        _levelData = Container.Instance.Get<ILevelDataService>();
 
         if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
         {

@@ -3,22 +3,18 @@ using UnityEngine;
 [DefaultExecutionOrder(-1)]
 public class Installer : MonoBehaviour
 {
-    [SerializeField] private EnemyPath _enemyPath;
-    [SerializeField] private Transform _spawnPoint;
     [SerializeField] private EnemySpawnSettings _spawnSettings;
 
     private void Awake()
     {
-        Container.Instance.Register<EnemyPath>(_enemyPath);
+        // Регистрируем сервисы
+        var coroutineService = new CoroutineRunService();
+        Container.Instance.Register<ICoroutineRunService>(coroutineService);
 
-        CoroutineRunService coroutineRunner = gameObject.AddComponent<CoroutineRunService>();
-        Container.Instance.Register<ICoroutineRunService>(coroutineRunner);
+        var levelDataService = new LevelDataService();
+        Container.Instance.Register<ILevelDataService>(levelDataService);
 
-        LevelDataService levelData = gameObject.AddComponent<LevelDataService>();
-        levelData.Initialize(_spawnPoint, _enemyPath);
-        Container.Instance.Register<ILevelDataService>(levelData);
-
-        EnemySpawnSystem spawnSystem = new EnemySpawnSystem(_spawnSettings, coroutineRunner, levelData);
+        var spawnSystem = new EnemySpawnSystem(_spawnSettings);
         Container.Instance.Register<EnemySpawnSystem>(spawnSystem);
     }
 }

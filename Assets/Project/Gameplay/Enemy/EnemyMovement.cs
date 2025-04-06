@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,14 +14,16 @@ public class EnemyMovement : MonoBehaviour
     private bool _hasPath = false;
     private bool _isMoving = true;
 
-    private void Awake()
-    {
-        var enemyPath = Container.Instance.Get<ILevelDataService>().GetEnemyPath();
-        Construct(enemyPath);
-    }
+    //private void Awake()
+    //{
+    //    var enemyPath = Container.Instance.Get<ILevelDataService>().GetEnemyPath();
+    //    Construct(enemyPath);
+    //}
 
     private void Start()
     {
+        var levelData = Container.Instance.Get<ILevelDataService>();
+        Construct(levelData.GetEnemyPath());
         InitializePath();
     }
 
