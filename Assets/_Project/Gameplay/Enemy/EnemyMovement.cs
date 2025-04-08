@@ -15,14 +15,7 @@ public class EnemyMovement : MonoBehaviour
     private bool _hasPath = false;
     private bool _isMoving = true;
 
-    public event Action<EnemyMovement> OnPathCompleted;
-
-    //private void Start()
-    //{
-    //    var levelData = Container.Instance.Get<ILevelDataService>();
-    //    Construct(levelData.GetEnemyPath());
-    //    InitializePath();
-    //}
+    public event Action<EnemyMovement> PathCompleted;
 
     private void Update()
     {
@@ -36,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        OnPathCompleted = null;
+        PathCompleted = null;
     }
 
     public void Initialize()
@@ -52,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
         _waypoints = null;
         _hasPath = false;
         _isMoving = true;
-        OnPathCompleted = null;
+        PathCompleted = null;
     }
 
     public void InitializePath()
@@ -95,7 +88,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (_currentWaypointIndex >= _waypoints.Count)
         {
-            PathCompleted();
+            OnPathCompleted();
             return;
         }
 
@@ -118,8 +111,8 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void PathCompleted()
+    private void OnPathCompleted()
     {
-        OnPathCompleted?.Invoke(this);
+        PathCompleted?.Invoke(this);
     }
 }

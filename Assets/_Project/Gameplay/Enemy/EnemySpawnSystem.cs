@@ -16,7 +16,7 @@ public class EnemySpawnSystem
         _spawnSettings = spawnSettings;
         _coroutineRunner = Container.Instance.Get<ICoroutineRunService>();
         _levelData = Container.Instance.Get<ILevelDataService>();
-
+         
         if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
         {
             return;
@@ -91,14 +91,14 @@ public class EnemySpawnSystem
         movement.Cleanup();
         movement.Initialize();
 
-        movement.OnPathCompleted += ReturnEnemyToPool;
+        movement.PathCompleted += OnPathCompleted;
 
         _spawnedCount++;
     }
 
-    private void ReturnEnemyToPool(EnemyMovement movement)
+    private void OnPathCompleted(EnemyMovement movement)
     {
-        movement.OnPathCompleted -= ReturnEnemyToPool;
+        movement.PathCompleted -= OnPathCompleted;
         movement.Cleanup();
         ReturnEnemy(movement.GetComponent<Enemy>());
     }
