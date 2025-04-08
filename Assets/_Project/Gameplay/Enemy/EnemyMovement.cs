@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,18 +15,14 @@ public class EnemyMovement : MonoBehaviour
     private bool _hasPath = false;
     private bool _isMoving = true;
 
-    //private void Awake()
-    //{
-    //    var enemyPath = Container.Instance.Get<ILevelDataService>().GetEnemyPath();
-    //    Construct(enemyPath);
-    //}
+    public event Action<EnemyMovement> OnPathCompleted;
 
-    private void Start()
-    {
-        var levelData = Container.Instance.Get<ILevelDataService>();
-        Construct(levelData.GetEnemyPath());
-        InitializePath();
-    }
+    //private void Start()
+    //{
+    //    var levelData = Container.Instance.Get<ILevelDataService>();
+    //    Construct(levelData.GetEnemyPath());
+    //    InitializePath();
+    //}
 
     private void Update()
     {
@@ -35,6 +32,27 @@ public class EnemyMovement : MonoBehaviour
         }
 
         MoveAlongPath();
+    }
+
+    private void OnDisable()
+    {
+        OnPathCompleted = null;
+    }
+
+    public void Initialize()
+    {
+        var levelData = Container.Instance.Get<ILevelDataService>();
+        Construct(levelData.GetEnemyPath());
+        InitializePath();
+    }
+
+    public void Cleanup()
+    {
+        _currentWaypointIndex = 0;
+        _waypoints = null;
+        _hasPath = false;
+        _isMoving = true;
+        OnPathCompleted = null;
     }
 
     public void InitializePath()
@@ -59,6 +77,16 @@ public class EnemyMovement : MonoBehaviour
     public void Construct(EnemyPath enemyPath)
     {
         _enemyPath = enemyPath;
+    }
+
+    public void StopMovement(bool stop = false)
+    {
+        _isMoving = stop;
+    }
+
+    public void ChangeSpeed(float newSpeed)
+    {
+        _moveSpeed = newSpeed;
     }
 
     private void MoveAlongPath()
@@ -92,18 +120,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void PathCompleted()
     {
-        EnemySpawnSystem spawnSystem = Container.Instance.Get<EnemySpawnSystem>();
-        spawnSystem.ReturnEnemy(GetComponent<Enemy>());
-        //Destroy(gameObject);
-    }
-
-    public void StopMovement(bool stop = false)
-    {
-        _isMoving = stop;
-    }
-
-    public void ChangeSpeed(float newSpeed)
-    {
-        _moveSpeed = newSpeed;
+        OnPathCompleted?.Invoke(this);
     }
 }

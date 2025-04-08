@@ -44,8 +44,6 @@ public class EnemySpawnSystem
 
     private IEnumerator WaveSpawner()
     {
-        //yield return new WaitForSeconds(2f);
-
         while (_spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count)
         {
             var wave = GetCurrentWave();
@@ -58,7 +56,10 @@ public class EnemySpawnSystem
                 yield return new WaitForSeconds(wave.SpawnInterval);
             }
 
-            if (!ShouldSpawnNextWave()) yield break;
+            if (!ShouldSpawnNextWave())
+            {
+                yield break;
+            }    
 
             yield return new WaitForSeconds(wave.DelayAfterWave);
             _currentWave++;
@@ -68,7 +69,9 @@ public class EnemySpawnSystem
     private EnemyWaveConfig GetCurrentWave()
     {
         if (_spawnSettings.InfiniteWaves)
+        {
             return _spawnSettings.Waves[1];
+        }
 
         return _spawnSettings.Waves[_currentWave];
     }
@@ -85,13 +88,24 @@ public class EnemySpawnSystem
 
         var movement = enemy.GetComponent<EnemyMovement>();
 
+        movement.Cleanup();
+        movement.Initialize();
+
+        movement.OnPathCompleted += ReturnEnemyToPool;
+
         _spawnedCount++;
     }
 
-    public void ReturnEnemy(Enemy enemy)
+    private void ReturnEnemyToPool(EnemyMovement movement)
     {
-        if (enemy == null) return;
+        movement.OnPathCompleted -= ReturnEnemyToPool;
+        movement.Cleanup();
+        ReturnEnemy(movement.GetComponent<Enemy>());
+    }
 
+    private void ReturnEnemy(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
         _pool.Return(enemy);
         _spawnedCount--;
     }
