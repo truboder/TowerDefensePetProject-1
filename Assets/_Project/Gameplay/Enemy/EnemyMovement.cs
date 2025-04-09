@@ -32,6 +32,11 @@ public class EnemyMovement : MonoBehaviour
         PathCompleted = null;
     }
 
+    public void Construct(EnemyPath enemyPath)
+    {
+        _enemyPath = enemyPath;
+    }
+
     public void Initialize()
     {
         var levelData = Container.Instance.Get<ILevelDataService>();
@@ -65,11 +70,6 @@ public class EnemyMovement : MonoBehaviour
         _hasPath = true;
         transform.position = _waypoints[0];
         _currentWaypointIndex = 1;
-    }
-
-    public void Construct(EnemyPath enemyPath)
-    {
-        _enemyPath = enemyPath;
     }
 
     public void StopMovement(bool stop = false)

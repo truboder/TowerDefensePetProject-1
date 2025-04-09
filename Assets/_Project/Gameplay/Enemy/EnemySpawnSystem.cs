@@ -38,7 +38,6 @@ public class EnemySpawnSystem
 
     private void StartWaveSpawning()
     {
-
         _coroutineRunner.StartCoroutine(WaveSpawner());
     }
 
