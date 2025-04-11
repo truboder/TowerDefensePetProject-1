@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class LevelDataInitializer : MonoBehaviour
 {
@@ -7,29 +8,16 @@ public class LevelDataInitializer : MonoBehaviour
 
     private ILevelDataService _levelDataService;
 
-    private void Awake()
-    {
-        var levelDataService = Container.Instance.Get<ILevelDataService>();
-        levelDataService.SetEnemySpawnPoint(_spawnPoint);
-        levelDataService.SetEnemyPath(_enemyPath);
-    }
-
-    private void Start()
-    {
-        if (_levelDataService != null)
-        {
-            _levelDataService.SetEnemySpawnPoint(_spawnPoint);
-            _levelDataService.SetEnemyPath(_enemyPath);
-        }
-    }
-
     private void OnDestroy()
     {
         _levelDataService?.ResetLevelData();
     }
 
+    [Inject]
     public void Construct(ILevelDataService levelDataService)
     {
         _levelDataService = levelDataService;
+        levelDataService.SetEnemySpawnPoint(_spawnPoint);
+        levelDataService.SetEnemyPath(_enemyPath);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     private List<Vector3> _waypoints;
     private bool _hasPath = false;
     private bool _isMoving = true;
+    private ILevelDataService _levelDataService;
 
     public event Action<EnemyMovement> PathCompleted;
 
@@ -32,15 +34,15 @@ public class EnemyMovement : MonoBehaviour
         PathCompleted = null;
     }
 
-    public void Construct(EnemyPath enemyPath)
+    [Inject]
+    public void Construct(ILevelDataService levelDataService)
     {
-        _enemyPath = enemyPath;
+        _levelDataService = levelDataService;
     }
 
     public void Initialize()
     {
-        var levelData = Container.Instance.Get<ILevelDataService>();
-        Construct(levelData.GetEnemyPath());
+        _levelDataService.GetEnemyPath();
         InitializePath();
     }
 

@@ -1,22 +1,24 @@
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 public class EnemySpawnSystem
 {
     private readonly EnemySpawnSettings _spawnSettings;
     private readonly ICoroutineRunService _coroutineRunner;
-    private readonly ILevelDataService _levelData;
+    private readonly ILevelDataService _levelDataSaervice;
     private readonly ComponentPool<Enemy> _pool;
 
     private int _spawnedCount = 0;
     private int _currentWave = 0;
 
-    public EnemySpawnSystem(EnemySpawnSettings spawnSettings)
+    [Inject]
+    public EnemySpawnSystem(EnemySpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, ILevelDataService levelDataService)
     {
         _spawnSettings = spawnSettings;
-        _coroutineRunner = Container.Instance.Get<ICoroutineRunService>();
-        _levelData = Container.Instance.Get<ILevelDataService>();
-         
+        _coroutineRunner = coroutineRunService;
+        _levelDataSaervice = levelDataService;
+
         if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
         {
             return;
@@ -83,7 +85,7 @@ public class EnemySpawnSystem
     private void SpawnSingleEnemy()
     {
         Enemy enemy = _pool.Get();
-        enemy.transform.position = _levelData.GetSpawnPosition();
+        enemy.transform.position = _levelDataSaervice.GetSpawnPosition();
 
         var movement = enemy.GetComponent<EnemyMovement>();
 

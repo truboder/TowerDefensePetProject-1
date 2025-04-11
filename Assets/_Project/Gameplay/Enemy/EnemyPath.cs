@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyPath : MonoBehaviour
@@ -12,30 +13,7 @@ public class EnemyPath : MonoBehaviour
 
     public List<Vector3> GetWaypointsPositions()
     {
-        if (!_isInitialized)
-        {
-            InitializeWaypointsCache();
-        }
-        return _cachedWayPointsPositions;
-    }
-
-    private void InitializeWaypointsCache()
-    {
-        _cachedWayPointsPositions = new List<Vector3>(_waypoints.Count);
-
-        foreach (Transform waypoint in _waypoints)
-        {
-            if (waypoint != null)
-            {
-                _cachedWayPointsPositions.Add(waypoint.position);
-            }
-            else
-            {
-                _cachedWayPointsPositions.Add(Vector3.zero);
-            }
-        }
-
-        _isInitialized = true;
+        return _cachedWayPointsPositions ??= _waypoints.Select(waypoint => waypoint.position).ToList();
     }
 
     private void OnValidate()
