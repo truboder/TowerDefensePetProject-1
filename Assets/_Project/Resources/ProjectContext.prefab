@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 786853398283781201}
   - component: {fileID: 2611636021369384252}
-  - component: {fileID: -8470598754668797863}
+  - component: {fileID: -1285304730632101224}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 0}
+  - {fileID: -1285304730632101224}
   _installerPrefabs: []
   _parentNewObjectsUnderContext: 0
   _editorReflectionBakingCoverageMode: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
       _missingHandlerDefaultResponse: 2
       _requireStrictUnsubscribe: 0
       _defaultAsyncTickPriority: 1
---- !u!114 &-8470598754668797863
+--- !u!114 &-1285304730632101224
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,4 +74,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98e758ea0d3a325499e3bbda0ba3cd0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawnSettings: {fileID: 11400000, guid: 04acf18bc698da247a2cd3f54c2e9715, type: 2}

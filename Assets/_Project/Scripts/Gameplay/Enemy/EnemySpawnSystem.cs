@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class EnemySpawnSystem
+public class EnemySpawnSystem : IInitializable
 {
     private readonly EnemySpawnSettings _spawnSettings;
     private readonly ICoroutineRunService _coroutineRunner;
@@ -12,19 +12,17 @@ public class EnemySpawnSystem
     private int _spawnedCount = 0;
     private int _currentWave = 0;
 
-    [Inject]
     public EnemySpawnSystem(EnemySpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, ILevelDataService levelDataService)
     {
         _spawnSettings = spawnSettings;
         _coroutineRunner = coroutineRunService;
         _levelDataSaervice = levelDataService;
 
-        if (_spawnSettings == null || _spawnSettings.DefaultEnemyPrefab == null)
-        {
-            return;
-        }
-
         _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab);
+    }
+
+    public void Initialize()
+    {
         PrewarmPool();
         StartWaveSpawning();
     }
