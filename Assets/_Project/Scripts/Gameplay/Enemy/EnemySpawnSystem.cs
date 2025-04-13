@@ -8,17 +8,19 @@ public class EnemySpawnSystem : IInitializable
     private readonly ICoroutineRunService _coroutineRunner;
     private readonly ILevelDataService _levelDataSaervice;
     private readonly ComponentPool<Enemy> _pool;
+    private readonly DiContainer _container;
 
     private int _spawnedCount = 0;
     private int _currentWave = 0;
 
-    public EnemySpawnSystem(EnemySpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, ILevelDataService levelDataService)
+    public EnemySpawnSystem(EnemySpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, ILevelDataService levelDataService, DiContainer container)
     {
         _spawnSettings = spawnSettings;
         _coroutineRunner = coroutineRunService;
         _levelDataSaervice = levelDataService;
+        _container = container;
 
-        _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab);
+        _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
     }
 
     public void Initialize()

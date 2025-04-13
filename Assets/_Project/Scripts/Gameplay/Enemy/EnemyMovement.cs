@@ -42,7 +42,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void Initialize()
     {
-        _levelDataService.GetEnemyPath();
+        _enemyPath = _levelDataService.GetEnemyPath();
         InitializePath();
     }
 
