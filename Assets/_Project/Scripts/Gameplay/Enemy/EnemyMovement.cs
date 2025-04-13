@@ -19,6 +19,12 @@ public class EnemyMovement : MonoBehaviour
 
     public event Action<EnemyMovement> PathCompleted;
 
+    [Inject]
+    public void Construct(ILevelDataService levelDataService)
+    {
+        _levelDataService = levelDataService;
+    }
+
     private void Update()
     {
         if (!_hasPath || !_isMoving)
@@ -34,12 +40,6 @@ public class EnemyMovement : MonoBehaviour
         PathCompleted = null;
     }
 
-    [Inject]
-    public void Construct(ILevelDataService levelDataService)
-    {
-        _levelDataService = levelDataService;
-    }
-
     public void Initialize()
     {
         _enemyPath = _levelDataService.GetEnemyPath();
@@ -53,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
         _hasPath = false;
         _isMoving = true;
         PathCompleted = null;
-    }
+    }  
 
     public void InitializePath()
     {

@@ -11,11 +11,6 @@ public class EnemyPath : MonoBehaviour
     private List<Vector3> _cachedWayPointsPositions;
     private bool _isInitialized = false;
 
-    public List<Vector3> GetWaypointsPositions()
-    {
-        return _cachedWayPointsPositions ??= _waypoints.Select(waypoint => waypoint.position).ToList();
-    }
-
     private void OnValidate()
     {
         _isInitialized = false;
@@ -48,6 +43,11 @@ public class EnemyPath : MonoBehaviour
                 Gizmos.DrawSphere(waypoint.position, gizmosSphereSize);
             }
         }
+    }
+
+    public List<Vector3> GetWaypointsPositions()
+    {
+        return _cachedWayPointsPositions ??= _waypoints.Select(waypoint => waypoint.position).ToList();
     }
 }
  
