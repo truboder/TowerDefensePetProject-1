@@ -20,6 +20,4 @@ public class LevelDataInitializer : MonoBehaviour
     {
         _levelDataService?.ResetLevelData();
     }
-
-    
 }

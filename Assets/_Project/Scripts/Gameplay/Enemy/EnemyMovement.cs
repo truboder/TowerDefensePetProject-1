@@ -53,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
         _hasPath = false;
         _isMoving = true;
         PathCompleted = null;
-    }  
+    }
 
     public void InitializePath()
     {

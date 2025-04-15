@@ -60,7 +60,7 @@ public class EnemySpawnSystem : IInitializable
             if (!ShouldSpawnNextWave())
             {
                 yield break;
-            }    
+            }
 
             yield return new WaitForSeconds(wave.DelayAfterWave);
             _currentWave++;
@@ -87,27 +87,41 @@ public class EnemySpawnSystem : IInitializable
         Enemy enemy = _pool.Get();
         enemy.transform.position = _levelDataSaervice.GetSpawnPosition();
 
-        var movement = enemy.GetComponent<EnemyMovement>();
+        var blockChainHandler = enemy.GetComponent<EnemyBlockChainHandler>();
 
-        movement.Cleanup();
-        movement.Initialize();
+        //var movement = enemy.GetComponent<EnemyMovement>();
 
-        movement.PathCompleted += OnPathCompleted;
+        //movement.Cleanup();
+        //movement.Initialize();
+
+        //movement.PathCompleted += OnPathCompleted;
+
+        if (blockChainHandler == null)
+        {
+            Debug.LogError("Enemy prefab is missing EnemyBlockChainHandler!");
+            return;
+        }
+
+        var path = _levelDataSaervice.GetEnemyPath();
+        var waypoints = path.GetWaypointsPositions();
+
+        blockChainHandler.Setup(waypoints, _pool, enemy);
+
 
         _spawnedCount++;
     }
 
-    private void OnPathCompleted(EnemyMovement movement)
-    {
-        movement.PathCompleted -= OnPathCompleted;
-        movement.Cleanup();
-        ReturnEnemy(movement.GetComponent<Enemy>());
-    }
+    //private void OnPathCompleted(EnemyMovement movement)
+    //{
+    //    movement.PathCompleted -= OnPathCompleted;
+    //    movement.Cleanup();
+    //    ReturnEnemy(movement.GetComponent<Enemy>());
+    //}
 
-    private void ReturnEnemy(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
-        _pool.Return(enemy);
-        _spawnedCount--;
-    }
+    //private void ReturnEnemy(Enemy enemy)
+    //{
+    //    enemy.gameObject.SetActive(false);
+    //    _pool.Return(enemy);
+    //    _spawnedCount--;
+    //}
 }

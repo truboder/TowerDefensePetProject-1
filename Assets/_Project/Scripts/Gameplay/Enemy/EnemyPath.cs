@@ -50,4 +50,3 @@ public class EnemyPath : MonoBehaviour
         return _cachedWayPointsPositions ??= _waypoints.Select(waypoint => waypoint.position).ToList();
     }
 }
- 
