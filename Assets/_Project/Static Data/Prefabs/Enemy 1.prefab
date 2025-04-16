@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04756d359f487214d8396ca07ef6b9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextBlock: {fileID: -1436187912018415934}
+  _nextBlock: {fileID: 0}
   _moveSpeed: 5
   _waypointBorder: 0.1
 --- !u!114 &-2154686353999098962
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84952b1a5e46394589a06a69787a728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextBlock: {fileID: -1436187912018415934}
+  _nextBlock: {fileID: 0}
 --- !u!114 &6768416391855914699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,4 +194,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5b74fda51345d4eb29d6559d303acf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextBlock: {fileID: -1436187912018415934}
+  _nextBlock: {fileID: 0}

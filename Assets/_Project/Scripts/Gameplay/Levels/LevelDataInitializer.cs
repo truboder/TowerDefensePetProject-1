@@ -1,10 +1,11 @@
+using Game.Enemy;
 using UnityEngine;
 using Zenject;
 
 public class LevelDataInitializer : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private EnemyPath _enemyPath;
+    [SerializeField] private Path _enemyPath;
 
     private ILevelDataService _levelDataService;
 

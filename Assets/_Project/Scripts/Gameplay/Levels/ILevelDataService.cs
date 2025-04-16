@@ -1,10 +1,11 @@
+using Game.Enemy;
 using UnityEngine;
 
 public interface ILevelDataService
 {
     Vector3 GetSpawnPosition();
-    EnemyPath GetEnemyPath();
+    Path GetEnemyPath();
     void SetEnemySpawnPoint(Transform spawnPoint);
-    void SetEnemyPath(EnemyPath enemyPath);
+    void SetEnemyPath(Path enemyPath);
     void ResetLevelData();
 }
