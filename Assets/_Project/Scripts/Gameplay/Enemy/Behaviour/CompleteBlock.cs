@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,8 @@ namespace Game.Enemy
     {
         private Enemy _enemy;
 
+        public event Action<Enemy> OnPathCompleted;
+
         public void Initialize(Enemy enemy)
         {
             _enemy = enemy;
@@ -14,8 +17,7 @@ namespace Game.Enemy
 
         public override void Process()
         {
-            gameObject.SetActive(false);
+            OnPathCompleted?.Invoke(_enemy);
         }
     }
-
 }

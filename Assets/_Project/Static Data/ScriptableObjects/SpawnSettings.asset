@@ -16,7 +16,7 @@ MonoBehaviour:
   InitialPoolSize: 10
   MaxPoolSize: 50
   Waves:
-  - EnemyCount: 10
+  - EnemyCount: 5
     SpawnInterval: 0.5
     DelayAfterWave: 3
   - EnemyCount: 4

@@ -27,17 +27,7 @@ namespace Game.Enemy
 
         public void Initialize()
         {
-            PrewarmPool();
             StartWaveSpawning();
-        }
-
-        private void PrewarmPool()
-        {
-            for (int i = 0; i < _spawnSettings.InitialPoolSize; i++)
-            {
-                Enemy enemy = _pool.Get();
-                _pool.Return(enemy);
-            }
         }
 
         private void StartWaveSpawning()
@@ -49,7 +39,7 @@ namespace Game.Enemy
         {
             while (_spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count)
             {
-                var wave = GetCurrentWave();
+                WaveConfig wave = GetCurrentWave();
 
                 for (int i = 0; i < wave.EnemyCount; i++)
                 {
@@ -89,40 +79,27 @@ namespace Game.Enemy
             Enemy enemy = _pool.Get();
             enemy.transform.position = _levelDataSaervice.GetSpawnPosition();
 
-            var blockChainHandler = enemy.GetComponent<BlockChainHandler>();
+            MoveBlock moveBlock = enemy.GetComponentInChildren<MoveBlock>();
+            AttackBlock attackBlock = enemy.GetComponentInChildren<AttackBlock>();
+            CompleteBlock completeBlock = enemy.GetComponentInChildren<CompleteBlock>();
 
-            //var movement = enemy.GetComponent<EnemyMovement>();
+            moveBlock.SetNext(attackBlock);
+            attackBlock.SetNext(completeBlock);
 
-            //movement.Cleanup();
-            //movement.Initialize();
-
-            //movement.PathCompleted += OnPathCompleted;
-
-            if (blockChainHandler == null)
-            {
-                Debug.LogError("Enemy prefab is missing EnemyBlockChainHandler!");
-                return;
-            }
-
-            var path = _levelDataSaervice.GetEnemyPath();
+            Path path = _levelDataSaervice.GetEnemyPath();
             var waypoints = path.GetWaypointsPositions();
 
-            blockChainHandler.Setup(waypoints, _pool, enemy);
+            moveBlock.InitializePath(waypoints);
+            completeBlock.Initialize(enemy);
 
+            completeBlock.OnPathCompleted += OnPathCompleted;
 
             _spawnedCount++;
         }
 
-        //private void OnPathCompleted(EnemyMovement movement)
-        //{
-        //    movement.PathCompleted -= OnPathCompleted;
-        //    movement.Cleanup();
-        //    ReturnEnemy(movement.GetComponent<Enemy>());
-        //}
-
-        private void ReturnEnemy(Enemy enemy)
+        private void OnPathCompleted(Enemy enemy)
         {
-            enemy.gameObject.SetActive(false);
+            enemy.GetComponentInChildren<CompleteBlock>().OnPathCompleted -= OnPathCompleted;
             _pool.Return(enemy);
             _spawnedCount--;
         }

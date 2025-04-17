@@ -5,26 +5,27 @@ namespace Game.Enemy
 {
     public class MoveBlock : BehaviourBlock
     {
+        private const int MinWaypointsCount = 1;
+
         [SerializeField] private float _moveSpeed = 5f;
         [SerializeField] private float _waypointBorder = 0.1f;
 
         private List<Vector3> _waypoints;
         private int _currentWaypointIndex;
         private bool _hasPath;
-        private int minWaypointsCount = 1;
 
         public void InitializePath(List<Vector3> waypoints)
         {
             _waypoints = waypoints;
             _currentWaypointIndex = 1;
-            _hasPath = waypoints != null && waypoints.Count > minWaypointsCount;
+            _hasPath = waypoints != null && waypoints.Count > MinWaypointsCount;
             transform.position = waypoints[0];
         }
 
         private void Update()
         {
             if (_hasPath)
-            {
+            {                
                 Move();
             }
         }
@@ -36,7 +37,6 @@ namespace Game.Enemy
             if (_currentWaypointIndex >= _waypoints.Count)
             {
                 Process();
-                enabled = false;
                 return;
             }
 
