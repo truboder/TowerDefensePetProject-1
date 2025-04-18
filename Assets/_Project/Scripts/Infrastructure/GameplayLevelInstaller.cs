@@ -1,7 +1,7 @@
 using _Project.Scripts.Gameplay.Enemy;
+using _Project.Scripts.Gameplay.Enemy.Static_Data;
 using _Project.Scripts.Gameplay.Levels;
 using _Project.Scripts.Gameplay.Player;
-using Game.Enemy;
 using UnityEngine;
 using Zenject;
 

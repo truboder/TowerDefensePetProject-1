@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Enemy
+namespace _Project.Scripts.Gameplay.Enemy.Static_Data
 {
     [CreateAssetMenu(fileName = "SpawnSettings", menuName = "Game/EnemySpawnSettings")]
     public class SpawnSettings : ScriptableObject

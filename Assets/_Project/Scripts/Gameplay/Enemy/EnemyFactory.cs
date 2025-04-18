@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+using _Project.Scripts.Gameplay.Enemy.Static_Data;
 using UnityEngine;
 using Zenject;
 using _Project.Scripts.Gameplay.Levels;
 using _Project.Scripts.Utils;
-using Game.Enemy;
 
 namespace _Project.Scripts.Gameplay.Enemy
 {

@@ -1,6 +1,6 @@
 using System.Collections;
+using _Project.Scripts.Gameplay.Enemy.Static_Data;
 using _Project.Scripts.Utils;
-using Game.Enemy;
 using UnityEngine;
 using Zenject;
 
