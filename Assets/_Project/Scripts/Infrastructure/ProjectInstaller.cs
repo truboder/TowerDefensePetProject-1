@@ -1,10 +1,13 @@
-using UnityEngine;
+using _Project.Scripts.Utils;
 using Zenject;
 
-public class ProjectInstaller : MonoInstaller
+namespace _Project.Scripts.Infrastructure
 {
-    public override void InstallBindings()
+    public class ProjectInstaller : MonoInstaller
     {
-        Container.Bind<ICoroutineRunService>().To<CoroutineRunService>().AsSingle().NonLazy();
+        public override void InstallBindings()
+        {
+            Container.Bind<ICoroutineRunService>().To<CoroutineRunService>().AsSingle().NonLazy();
+        }
     }
 }

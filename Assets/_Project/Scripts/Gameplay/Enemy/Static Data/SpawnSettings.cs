@@ -7,7 +7,7 @@ namespace Game.Enemy
     public class SpawnSettings : ScriptableObject
     {
         [Header("General Settings")]
-        public Enemy DefaultEnemyPrefab;
+        public _Project.Scripts.Gameplay.Enemy.Enemy DefaultEnemyPrefab;
 
         [Header("Pool Settings")]
         public int InitialPoolSize = 10;

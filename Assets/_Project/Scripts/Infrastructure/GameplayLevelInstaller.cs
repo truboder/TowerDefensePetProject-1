@@ -1,18 +1,23 @@
-using Zenject;
-using UnityEngine;
+using _Project.Scripts.Gameplay.Enemy;
+using _Project.Scripts.Gameplay.Levels;
+using _Project.Scripts.Gameplay.Player;
 using Game.Enemy;
-using Game.Player;
+using UnityEngine;
+using Zenject;
 
-public class GameplayLevelInstaller : MonoInstaller
+namespace _Project.Scripts.Infrastructure
 {
-    [SerializeField] private SpawnSettings _enemySpawnSettings;
-
-    public override void InstallBindings()
+    public class GameplayLevelInstaller : MonoInstaller
     {
-        Container.Bind<ILevelDataService>().To<LevelDataService>().AsSingle().NonLazy();
-        Container.Bind<HealthService>().AsSingle().NonLazy();
+        [SerializeField] private SpawnSettings _enemySpawnSettings;
 
-        Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
-        Container.BindInterfacesAndSelfTo<SpawnSystem>().AsSingle().NonLazy();
+        public override void InstallBindings()
+        {
+            Container.Bind<ILevelDataService>().To<LevelDataService>().AsSingle().NonLazy();
+            Container.Bind<HealthService>().AsSingle().NonLazy();
+
+            Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SpawnSystem>().AsSingle().NonLazy();
+        }
     }
 }

@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
-public interface ICoroutineRunService
+namespace _Project.Scripts.Utils
 {
-    Coroutine StartCoroutine(IEnumerator routine);
+    public interface ICoroutineRunService
+    {
+        Coroutine StartCoroutine(IEnumerator routine);
     
-    void StopCoroutine(Coroutine routine);
+        void StopCoroutine(Coroutine routine);
+    }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Player
+namespace _Project.Scripts.Gameplay.Player
 {
     public class HealthService
     {

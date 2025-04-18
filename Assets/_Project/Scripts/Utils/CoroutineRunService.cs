@@ -1,17 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-public class CoroutineRunService : ICoroutineRunService
+namespace _Project.Scripts.Utils
 {
-    private readonly CoroutineHolder _coroutineHolder;
-
-    public CoroutineRunService()
+    public class CoroutineRunService : ICoroutineRunService
     {
-        var holderObject = new GameObject("CoroutineHolder");
-        _coroutineHolder = holderObject.AddComponent<CoroutineHolder>();
+        private readonly CoroutineHolder _coroutineHolder;
+
+        public CoroutineRunService()
+        {
+            var holderObject = new GameObject("CoroutineHolder");
+            _coroutineHolder = holderObject.AddComponent<CoroutineHolder>();
+        }
+
+        public Coroutine StartCoroutine(IEnumerator routine) => _coroutineHolder.StartCoroutine(routine);
+
+        public void StopCoroutine(Coroutine routine) => _coroutineHolder.StopCoroutine(routine);
     }
-
-    public Coroutine StartCoroutine(IEnumerator routine) => _coroutineHolder.StartCoroutine(routine);
-
-    public void StopCoroutine(Coroutine routine) => _coroutineHolder.StopCoroutine(routine);
 }

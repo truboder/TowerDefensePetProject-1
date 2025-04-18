@@ -1,24 +1,27 @@
-using Game.Enemy;
+using _Project.Scripts.Gameplay.Enemy;
 using UnityEngine;
 using Zenject;
 
-public class LevelDataInitializer : MonoBehaviour
+namespace _Project.Scripts.Gameplay.Levels
 {
-    [SerializeField] private Transform _spawnPoint;
-    [SerializeField] private Path _enemyPath;
-
-    private ILevelDataService _levelDataService;
-
-    [Inject]
-    public void Construct(ILevelDataService levelDataService)
+    public class LevelDataInitializer : MonoBehaviour
     {
-        _levelDataService = levelDataService;
-        levelDataService.SetEnemySpawnPoint(_spawnPoint);
-        levelDataService.SetEnemyPath(_enemyPath);
-    }
+        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Path _enemyPath;
 
-    private void OnDestroy()
-    {
-        _levelDataService?.ResetLevelData();
+        private ILevelDataService _levelDataService;
+
+        [Inject]
+        public void Construct(ILevelDataService levelDataService)
+        {
+            _levelDataService = levelDataService;
+            levelDataService.SetEnemySpawnPoint(_spawnPoint);
+            levelDataService.SetEnemyPath(_enemyPath);
+        }
+
+        private void OnDestroy()
+        {
+            _levelDataService?.ResetLevelData();
+        }
     }
 }

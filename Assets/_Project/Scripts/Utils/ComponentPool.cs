@@ -2,36 +2,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class ComponentPool<T> where T : Component
+namespace _Project.Scripts.Utils
 {
-    private readonly Stack<T> _pool = new Stack<T>();
-    private readonly T _prefab;
-    private readonly Transform _parent;
-    private readonly DiContainer _container;
-
-
-    public ComponentPool(T prefab, DiContainer container, Transform parent = null)
+    public class ComponentPool<T> where T : Component
     {
-        _prefab = prefab;
-        _container = container;
-        _parent = parent;
-    }
+        private readonly Stack<T> _pool = new Stack<T>();
+        private readonly T _prefab;
+        private readonly Transform _parent;
+        private readonly DiContainer _container;
 
-    public T Get()
-    {
-        if (_pool.Count > 0)
+
+        public ComponentPool(T prefab, DiContainer container, Transform parent = null)
         {
-            T obj = _pool.Pop();
-            obj.gameObject.SetActive(true);
-            return obj;
+            _prefab = prefab;
+            _container = container;
+            _parent = parent;
         }
 
-        return _container.InstantiatePrefabForComponent<T>(_prefab, _parent);
-    }
+        public T Get()
+        {
+            if (_pool.Count > 0)
+            {
+                T obj = _pool.Pop();
+                obj.gameObject.SetActive(true);
+                return obj;
+            }
 
-    public void Return(T obj)
-    {
-        obj.gameObject.SetActive(false);
-        _pool.Push(obj);
+            return _container.InstantiatePrefabForComponent<T>(_prefab, _parent);
+        }
+
+        public void Return(T obj)
+        {
+            obj.gameObject.SetActive(false);
+            _pool.Push(obj);
+        }
     }
 }

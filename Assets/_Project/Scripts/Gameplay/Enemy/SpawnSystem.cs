@@ -1,8 +1,11 @@
 using System.Collections;
+using _Project.Scripts.Gameplay.Levels;
+using _Project.Scripts.Utils;
+using Game.Enemy;
 using UnityEngine;
 using Zenject;
 
-namespace Game.Enemy
+namespace _Project.Scripts.Gameplay.Enemy
 {
     public class SpawnSystem : IInitializable
     {
@@ -22,7 +25,7 @@ namespace Game.Enemy
             _levelDataSaervice = levelDataService;
             _container = container;
 
-            _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
+            _pool = new ComponentPool<_Project.Scripts.Gameplay.Enemy.Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
         public void Initialize()
@@ -79,27 +82,18 @@ namespace Game.Enemy
             Enemy enemy = _pool.Get();
             enemy.transform.position = _levelDataSaervice.GetSpawnPosition();
 
-            MoveBlock moveBlock = enemy.GetComponentInChildren<MoveBlock>();
-            AttackBlock attackBlock = enemy.GetComponentInChildren<AttackBlock>();
-            CompleteBlock completeBlock = enemy.GetComponentInChildren<CompleteBlock>();
-
-            moveBlock.SetNext(attackBlock);
-            attackBlock.SetNext(completeBlock);
-
             Path path = _levelDataSaervice.GetEnemyPath();
-            var waypoints = path.GetWaypointsPositions();
-
-            moveBlock.InitializePath(waypoints);
-            completeBlock.Initialize(enemy);
-
-            completeBlock.OnPathCompleted += OnPathCompleted;
+            var waypoints= path.GetWaypointsPositions();
+            
+            enemy.Initialize(waypoints);
+            enemy.OnPathCompletedEvent += () => OnPathCompleted(enemy);
 
             _spawnedCount++;
         }
 
-        private void OnPathCompleted(Enemy enemy)
+        private void OnPathCompleted(_Project.Scripts.Gameplay.Enemy.Enemy enemy)
         {
-            enemy.GetComponentInChildren<CompleteBlock>().OnPathCompleted -= OnPathCompleted;
+            enemy.OnPathCompletedEvent -= () => OnPathCompleted(enemy);
             _pool.Return(enemy);
             _spawnedCount--;
         }
