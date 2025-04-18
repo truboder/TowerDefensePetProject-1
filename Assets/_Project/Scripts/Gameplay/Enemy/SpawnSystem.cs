@@ -1,5 +1,4 @@
 using System.Collections;
-using _Project.Scripts.Gameplay.Levels;
 using _Project.Scripts.Utils;
 using Game.Enemy;
 using UnityEngine;
@@ -11,21 +10,16 @@ namespace _Project.Scripts.Gameplay.Enemy
     {
         private readonly SpawnSettings _spawnSettings;
         private readonly ICoroutineRunService _coroutineRunner;
-        private readonly ILevelDataService _levelDataSaervice;
-        private readonly ComponentPool<Enemy> _pool;
-        private readonly DiContainer _container;
+        private readonly EnemyFactory _enemyFactory;
 
         private int _spawnedCount = 0;
         private int _currentWave = 0;
 
-        public SpawnSystem(SpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, ILevelDataService levelDataService, DiContainer container)
+        public SpawnSystem(SpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, EnemyFactory enemyFactory)
         {
             _spawnSettings = spawnSettings;
             _coroutineRunner = coroutineRunService;
-            _levelDataSaervice = levelDataService;
-            _container = container;
-
-            _pool = new ComponentPool<_Project.Scripts.Gameplay.Enemy.Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
+            _enemyFactory = enemyFactory;
         }
 
         public void Initialize()
@@ -79,23 +73,8 @@ namespace _Project.Scripts.Gameplay.Enemy
 
         private void SpawnSingleEnemy()
         {
-            Enemy enemy = _pool.Get();
-            enemy.transform.position = _levelDataSaervice.GetSpawnPosition();
-
-            Path path = _levelDataSaervice.GetEnemyPath();
-            var waypoints= path.GetWaypointsPositions();
-            
-            enemy.Initialize(waypoints);
-            enemy.OnPathCompletedEvent += () => OnPathCompleted(enemy);
-
+            _enemyFactory.Create();
             _spawnedCount++;
-        }
-
-        private void OnPathCompleted(_Project.Scripts.Gameplay.Enemy.Enemy enemy)
-        {
-            enemy.OnPathCompletedEvent -= () => OnPathCompleted(enemy);
-            _pool.Return(enemy);
-            _spawnedCount--;
         }
     }
 }
