@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Utils
+namespace Utils
 {
     public class ComponentPool<T> where T : Component
     {

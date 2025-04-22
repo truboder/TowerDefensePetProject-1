@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Project.Scripts.Utils
+namespace Utils
 {
     public class CoroutineHolder : MonoBehaviour { }
 }

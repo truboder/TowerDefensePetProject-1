@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace _Project.Scripts.Utils.Helpers
+namespace Utils.Helpers
 {
     [Serializable]
     public struct Range<T> where T : IComparable<T>

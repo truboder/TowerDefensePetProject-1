@@ -1,10 +1,10 @@
 using System.Collections;
-using _Project.Scripts.Gameplay.Enemy.Static_Data;
-using _Project.Scripts.Utils;
+using Gameplay.Enemy.Static_Data;
 using UnityEngine;
+using Utils;
 using Zenject;
 
-namespace _Project.Scripts.Gameplay.Enemy
+namespace Gameplay.Enemy
 {
     public class SpawnSystem : IInitializable
     {

@@ -1,11 +1,11 @@
-using _Project.Scripts.Gameplay.Enemy;
-using _Project.Scripts.Gameplay.Enemy.Static_Data;
-using _Project.Scripts.Gameplay.Levels;
-using _Project.Scripts.Gameplay.Player;
+using Gameplay.Enemy;
+using Gameplay.Enemy.Static_Data;
+using Gameplay.Levels;
+using Gameplay.Player;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Infrastructure
+namespace Infrastructure
 {
     public class GameplayLevelInstaller : MonoInstaller
     {

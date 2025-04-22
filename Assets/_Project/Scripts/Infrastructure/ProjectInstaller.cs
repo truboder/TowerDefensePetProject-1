@@ -1,7 +1,7 @@
-using _Project.Scripts.Utils;
+using Utils;
 using Zenject;
 
-namespace _Project.Scripts.Infrastructure
+namespace Infrastructure
 {
     public class ProjectInstaller : MonoInstaller
     {

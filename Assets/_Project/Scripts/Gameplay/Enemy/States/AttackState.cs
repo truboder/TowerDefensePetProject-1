@@ -1,6 +1,6 @@
-using _Project.Scripts.Gameplay.Player;
+using Gameplay.Player;
 
-namespace _Project.Scripts.Gameplay.Enemy.States
+namespace Gameplay.Enemy.States
 {
     public class AttackState : BaseEnemyState
     {

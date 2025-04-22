@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace _Project.Scripts.Gameplay.Enemy
+namespace Gameplay.Enemy
 {
     public class Blackboard
     {

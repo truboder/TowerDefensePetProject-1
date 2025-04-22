@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using _Project.Scripts.Gameplay.Enemy.Static_Data;
+using Gameplay.Enemy.Static_Data;
+using Gameplay.Levels;
 using UnityEngine;
+using Utils;
 using Zenject;
-using _Project.Scripts.Gameplay.Levels;
-using _Project.Scripts.Utils;
 
-namespace _Project.Scripts.Gameplay.Enemy
+namespace Gameplay.Enemy
 {
     public class EnemyFactory
     {

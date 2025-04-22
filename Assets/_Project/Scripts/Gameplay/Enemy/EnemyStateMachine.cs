@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using _Project.Scripts.Gameplay.Enemy.States;
+using Gameplay.Enemy.States;
 
-namespace _Project.Scripts.Gameplay.Enemy
+namespace Gameplay.Enemy
 {
     public class EnemyStateMachine : IDisposable
     {

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace _Project.Scripts.Utils
+namespace Utils
 {
     public interface ICoroutineRunService
     {

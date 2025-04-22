@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
+using Gameplay.Enemy.States;
+using Gameplay.Player;
 using UnityEngine;
 using Zenject;
-using _Project.Scripts.Gameplay.Enemy.States;
-using _Project.Scripts.Gameplay.Player;
 
-namespace _Project.Scripts.Gameplay.Enemy
+namespace Gameplay.Enemy
 {
     public class Enemy : MonoBehaviour
     {
@@ -20,7 +21,7 @@ namespace _Project.Scripts.Gameplay.Enemy
             _healthService = healthService;
         }
 
-        public void Initialize(System.Collections.Generic.List<Vector3> waypoints)
+        public void Initialize(List<Vector3> waypoints)
         {
             _blackboard = new Blackboard();
             _blackboard.TrySetData("Waypoints", waypoints);

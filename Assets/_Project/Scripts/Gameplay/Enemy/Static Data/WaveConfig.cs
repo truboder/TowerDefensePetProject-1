@@ -1,4 +1,4 @@
-namespace _Project.Scripts.Gameplay.Enemy.Static_Data
+namespace Gameplay.Enemy.Static_Data
 {
     [System.Serializable]
     public class WaveConfig

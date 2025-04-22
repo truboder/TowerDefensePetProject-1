@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Project.Scripts.Gameplay.Enemy.Static_Data
+namespace Gameplay.Enemy.Static_Data
 {
     [CreateAssetMenu(fileName = "SpawnSettings", menuName = "Game/EnemySpawnSettings")]
     public class SpawnSettings : ScriptableObject
     {
         [Header("General Settings")]
-        public _Project.Scripts.Gameplay.Enemy.Enemy DefaultEnemyPrefab;
+        public Enemy DefaultEnemyPrefab;
 
         [Header("Pool Settings")]
         public int InitialPoolSize = 10;

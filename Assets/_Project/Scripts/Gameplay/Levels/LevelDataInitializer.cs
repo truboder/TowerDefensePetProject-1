@@ -1,8 +1,8 @@
-using _Project.Scripts.Gameplay.Enemy;
+using Gameplay.Enemy;
 using UnityEngine;
 using Zenject;
 
-namespace _Project.Scripts.Gameplay.Levels
+namespace Gameplay.Levels
 {
     public class LevelDataInitializer : MonoBehaviour
     {
