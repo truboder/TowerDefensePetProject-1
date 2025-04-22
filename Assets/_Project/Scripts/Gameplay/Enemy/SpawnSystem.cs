@@ -1,4 +1,5 @@
 using System.Collections;
+using Gameplay.Enemy.Factory;
 using Gameplay.Enemy.Static_Data;
 using UnityEngine;
 using Utils;

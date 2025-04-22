@@ -5,7 +5,7 @@ using UnityEngine;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Enemy
+namespace Gameplay.Enemy.Factory
 {
     public class EnemyFactory
     {

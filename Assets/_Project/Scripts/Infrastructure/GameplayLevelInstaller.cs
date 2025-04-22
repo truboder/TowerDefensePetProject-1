@@ -1,4 +1,5 @@
 using Gameplay.Enemy;
+using Gameplay.Enemy.Factory;
 using Gameplay.Enemy.Static_Data;
 using Gameplay.Levels;
 using Gameplay.Player;
