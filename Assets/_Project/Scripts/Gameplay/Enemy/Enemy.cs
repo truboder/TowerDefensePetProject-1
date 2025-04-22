@@ -11,26 +11,29 @@ namespace Gameplay.Enemy
     {
         private EnemyStateMachine _stateMachine;
         private Blackboard _blackboard;
-        private HealthService _healthService;
 
         public event Action OnPathCompletedEvent;
 
         [Inject]
         public void Construct(HealthService healthService)
         {
-            _healthService = healthService;
+
         }
 
-        public void Initialize(List<Vector3> waypoints)
+        public void Initialize(EnemyStateMachine stateMachine, Blackboard blackboard)
         {
-            _blackboard = new Blackboard();
-            _blackboard.TrySetData("Waypoints", waypoints);
+            _blackboard = blackboard;
+            _stateMachine = stateMachine;
+            
+            _stateMachine.OnStateChanged += HandleStateChanged;
+        }
 
-            _stateMachine = new EnemyStateMachine();
-            _stateMachine.AddState(new MoveState(_stateMachine, _blackboard, this));
-            _stateMachine.AddState(new AttackState(_stateMachine, _blackboard, this, _healthService));
-            _stateMachine.AddState(new CompleteState(_stateMachine, _blackboard, this));
-            _stateMachine.SetState<MoveState>();
+        private void HandleStateChanged(Type stateType)
+        {
+            if (stateType == typeof(CompleteState))
+            {
+                OnPathCompleted();
+            }
         }
 
         private void Update()
@@ -41,6 +44,7 @@ namespace Gameplay.Enemy
         private void OnDestroy()
         {
             _stateMachine?.Dispose();
+            _stateMachine.OnStateChanged -= HandleStateChanged;
         }
 
         public void OnPathCompleted()

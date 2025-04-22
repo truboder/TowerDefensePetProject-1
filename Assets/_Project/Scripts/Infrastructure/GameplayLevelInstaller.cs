@@ -18,7 +18,7 @@ namespace Infrastructure
             Container.Bind<HealthService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
-            Container.Bind<EnemyFactory>().AsSingle().NonLazy();
+            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SpawnSystem>().AsSingle().NonLazy();
         }
     }

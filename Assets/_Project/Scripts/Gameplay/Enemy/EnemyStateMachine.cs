@@ -7,8 +7,8 @@ namespace Gameplay.Enemy
     public class EnemyStateMachine : IDisposable
     {
         private readonly Dictionary<Type, BaseEnemyState> _states = new();
-        
         public BaseEnemyState CurrentState { get; private set; }
+        public event Action<Type> OnStateChanged;
 
         public void AddState(BaseEnemyState state)
         {
@@ -28,10 +28,12 @@ namespace Gameplay.Enemy
             {
                 return;
             }
-            
+
             CurrentState?.Exit();
             CurrentState = state;
             CurrentState.Enter();
+            
+            OnStateChanged?.Invoke(type);
         }
 
         public void Update()

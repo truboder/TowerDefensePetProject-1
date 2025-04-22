@@ -11,12 +11,12 @@ namespace Gameplay.Enemy
     {
         private readonly SpawnSettings _spawnSettings;
         private readonly ICoroutineRunService _coroutineRunner;
-        private readonly EnemyFactory _enemyFactory;
+        private readonly IEnemyFactory _enemyFactory;
 
         private int _spawnedCount = 0;
         private int _currentWave = 0;
 
-        public SpawnSystem(SpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, EnemyFactory enemyFactory)
+        public SpawnSystem(SpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, IEnemyFactory enemyFactory)
         {
             _spawnSettings = spawnSettings;
             _coroutineRunner = coroutineRunService;

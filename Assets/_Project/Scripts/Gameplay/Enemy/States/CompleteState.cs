@@ -9,17 +9,15 @@ namespace Gameplay.Enemy.States
 
         public override void Enter()
         {
-            Enemy.OnPathCompleted();
+
         }
 
         public override void Update()
         {
-
         }
 
         public override void Exit()
         {
-
         }
     }
 }

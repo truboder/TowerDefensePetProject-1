@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Gameplay.Enemy.Factory
 {
-    public class IEnemyFactory : MonoBehaviour
+    public interface IEnemyFactory
     {
-
+        Enemy Create();
     }
 }
