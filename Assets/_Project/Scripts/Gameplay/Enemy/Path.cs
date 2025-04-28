@@ -52,5 +52,4 @@ namespace Gameplay.Enemy
             return _cachedWayPointsPositions ??= _waypoints.Select(waypoint => waypoint.position).ToList();
         }
     }
-
 }
