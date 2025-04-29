@@ -1,11 +1,11 @@
 using System.Collections;
-using Gameplay.Enemy.Factory;
-using Gameplay.Enemy.Static_Data;
+using Gameplay.Nemesis.Factory;
+using Gameplay.Nemesis.Static_Data;
 using UnityEngine;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Enemy
+namespace Gameplay.Nemesis
 {
     public class SpawnSystem : IInitializable
     {

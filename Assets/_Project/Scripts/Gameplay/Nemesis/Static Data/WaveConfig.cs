@@ -1,4 +1,4 @@
-namespace Gameplay.Enemy.Static_Data
+namespace Gameplay.Nemesis.Static_Data
 {
     [System.Serializable]
     public class WaveConfig

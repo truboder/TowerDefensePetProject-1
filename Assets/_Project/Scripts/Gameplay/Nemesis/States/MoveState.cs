@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Gameplay.Nemesis;
 using UnityEngine;
 
-namespace Gameplay.Enemy.States
+namespace Gameplay.Nemesis.States
 {
     public class MoveState : BaseEnemyState
     {

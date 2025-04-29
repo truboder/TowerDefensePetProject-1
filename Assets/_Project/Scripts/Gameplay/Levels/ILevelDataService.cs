@@ -1,4 +1,4 @@
-using Gameplay.Enemy;
+using Gameplay.Nemesis;
 using UnityEngine;
 
 namespace Gameplay.Levels

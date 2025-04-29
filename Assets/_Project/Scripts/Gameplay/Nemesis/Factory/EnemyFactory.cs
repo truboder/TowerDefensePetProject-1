@@ -1,13 +1,13 @@
 using System.Collections.Generic;
-using Gameplay.Enemy.States;
-using Gameplay.Enemy.Static_Data;
 using Gameplay.Levels;
+using Gameplay.Nemesis.States;
+using Gameplay.Nemesis.Static_Data;
 using Gameplay.Player;
 using UnityEngine;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Enemy.Factory
+namespace Gameplay.Nemesis.Factory
 {
     public class EnemyFactory : IEnemyFactory
     {
@@ -45,6 +45,7 @@ namespace Gameplay.Enemy.Factory
 
             enemy.Initialize(stateMachine, blackboard);
             enemy.OnPathCompletedEvent += () => Return(enemy);
+            enemy.OnDestroyed += () => Return(enemy);
 
             return enemy;
         }
@@ -52,6 +53,7 @@ namespace Gameplay.Enemy.Factory
         private void Return(Enemy enemy)
         {
             enemy.OnPathCompletedEvent -= () => Return(enemy);
+            enemy.OnDestroyed -= () => Return(enemy);
             _pool.Return(enemy);
         }
     }
