@@ -38,7 +38,6 @@ namespace Gameplay.Nemesis
             if (_health <= 0)
             {
                 OnDestroyed?.Invoke();
-                Destroy(gameObject);
             }
         }
 
