@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemySpawnSettings: {fileID: 11400000, guid: 04acf18bc698da247a2cd3f54c2e9715, type: 2}
-  _towerAttackSettings: {fileID: 0}
+  _towerAttackSettings: {fileID: 11400000, guid: 6d968f47b27abf3478f5bfa6267fd9a4, type: 2}
 --- !u!1 &1547662461
 GameObject:
   m_ObjectHideFlags: 0
