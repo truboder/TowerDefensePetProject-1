@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa81bc070be84bdaa4054c6c93ea6512, type: 3}
   m_Name: TowerAttackSettings
   m_EditorClassIdentifier: 
-  AttackRadius: 5
-  AttackInterval: 1
+  ProjectilePrefab: {fileID: 6851088429479312418, guid: a9bd3c64ae606614ca8b459a9d14d488, type: 3}
+  Range: 5
+  FireRate: 1
   Damage: 1
+  InitialPoolSize: 10
+  MaxPoolSize: 50

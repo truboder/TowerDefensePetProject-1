@@ -1,13 +1,19 @@
+using Gameplay.Tower.ProjectileFactory;
 using UnityEngine;
 
 namespace Gameplay.Tower.StaticData
 {
-    [CreateAssetMenu(fileName = "TowerAttackSettings", menuName = "Game/TowerAttackSettings")]
-    public class TowerAttackSettings : ScriptableObject
+    [CreateAssetMenu(fileName = "TowerSettings", menuName = "Game/TowerSettings")]
+    public class TowerSettings : ScriptableObject
     {
-        [Header("Attack Settings")]
-        public float AttackRadius = 5f;
-        public float AttackInterval = 1f;
+        [Header("General Settings")]
+        public Projectile ProjectilePrefab;
+        public float Range = 5f;
+        public float FireRate = 1f;
         public int Damage = 1;
+
+        [Header("Pool Settings")]
+        public int InitialPoolSize = 10;
+        public int MaxPoolSize = 50;
     }
 }

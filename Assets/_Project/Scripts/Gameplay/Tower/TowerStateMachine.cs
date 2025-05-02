@@ -1,21 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Gameplay.Nemesis.States;
+using Gameplay.Tower.States;
 
-namespace Gameplay.Nemesis
+namespace Gameplay.Tower
 {
-    public class EnemyStateMachine : IDisposable
+    public class TowerStateMachine : IDisposable
     {
-        private readonly Dictionary<Type, BaseEnemyState> _states = new();
-        public BaseEnemyState CurrentState { get; private set; }
+        private readonly Dictionary<Type, BaseTowerState> _states = new();
+        public BaseTowerState CurrentState { get; private set; }
         public event Action<Type> OnStateChanged;
 
-        public void AddState(BaseEnemyState state)
+        public void AddState(BaseTowerState state)
         {
             _states.Add(state.GetType(), state);
         }
 
-        public void SetState<T>() where T : BaseEnemyState
+        public void SetState<T>() where T : BaseTowerState
         {
             var type = typeof(T);
 

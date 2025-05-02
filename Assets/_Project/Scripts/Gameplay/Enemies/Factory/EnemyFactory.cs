@@ -1,13 +1,13 @@
 using System.Collections.Generic;
+using Gameplay.Enemies.States;
+using Gameplay.Enemies.Static_Data;
 using Gameplay.Levels;
-using Gameplay.Nemesis.States;
-using Gameplay.Nemesis.Static_Data;
 using Gameplay.Player;
 using UnityEngine;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Nemesis.Factory
+namespace Gameplay.Enemies.Factory
 {
     public class EnemyFactory : IEnemyFactory
     {
@@ -15,14 +15,17 @@ namespace Gameplay.Nemesis.Factory
         private readonly SpawnSettings _spawnSettings;
         private readonly ILevelDataService _levelDataService;
         private readonly DiContainer _container;
-        private readonly HealthService _healthService;
+        private readonly HealthService _playerHealthService;
+        private readonly EnemyHealthService _enemyHealthService;
 
-        public EnemyFactory(SpawnSettings spawnSettings, ILevelDataService levelDataService, DiContainer container, HealthService healthService)
+        public EnemyFactory(SpawnSettings spawnSettings, ILevelDataService levelDataService, 
+            DiContainer container, HealthService playerHealthService, EnemyHealthService enemyHealthService)
         {
             _spawnSettings = spawnSettings;
             _levelDataService = levelDataService;
             _container = container;
-            _healthService = healthService;
+            _playerHealthService = playerHealthService;
+            _enemyHealthService = enemyHealthService;
             _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
@@ -39,13 +42,12 @@ namespace Gameplay.Nemesis.Factory
 
             EnemyStateMachine stateMachine = new EnemyStateMachine();
             stateMachine.AddState(new MoveState(stateMachine, blackboard, enemy));
-            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy, _healthService));
+            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy, _playerHealthService));
             stateMachine.AddState(new CompleteState(stateMachine, blackboard, enemy));
             stateMachine.SetState<MoveState>();
 
-            enemy.Initialize(stateMachine, blackboard);
+            enemy.Initialize(stateMachine, blackboard, _enemyHealthService);
             enemy.OnPathCompletedEvent += () => Return(enemy);
-            enemy.OnDestroyed += () => Return(enemy);
 
             return enemy;
         }
@@ -53,7 +55,6 @@ namespace Gameplay.Nemesis.Factory
         private void Return(Enemy enemy)
         {
             enemy.OnPathCompletedEvent -= () => Return(enemy);
-            enemy.OnDestroyed -= () => Return(enemy);
             _pool.Return(enemy);
         }
     }

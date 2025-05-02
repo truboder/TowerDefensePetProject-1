@@ -1,4 +1,4 @@
-using Gameplay.Nemesis;
+using Gameplay.Enemies;
 using UnityEngine;
 using Zenject;
 

@@ -1,7 +1,6 @@
-using Gameplay.Nemesis;
 using Gameplay.Player;
 
-namespace Gameplay.Nemesis.States
+namespace Gameplay.Enemies.States
 {
     public class AttackState : BaseEnemyState
     {

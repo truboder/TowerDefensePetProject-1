@@ -1,84 +1,73 @@
+using System;
 using System.Collections.Generic;
-using Gameplay.Nemesis;
-using Gameplay.Nemesis.Factory;
-using Gameplay.Tower.StaticData;
+using Gameplay.Enemies;
 using UnityEngine;
-using Utils;
+using Zenject;
 
 namespace Gameplay.Tower
 {
     public class Tower : MonoBehaviour
     {
-        [SerializeField] private TowerAttackSettings _settings;
+        [SerializeField] private SphereCollider _triggerCollider;
+        
+        private TowerStateMachine _stateMachine;
+        private Blackboard _blackboard;
+        private TowerSystem _towerSystem;
         private readonly List<Enemy> _enemiesInRange = new List<Enemy>();
-        private float _attackTimer;
-        private ICoroutineRunService _coroutineRunner;
 
-        public void Construct(ICoroutineRunService coroutineRunner)
+        public event Action<Enemy> OnEnemyEntered;
+        public event Action<Enemy> OnEnemyExited;
+        
+        public Vector3 GetPosition() => transform.position;
+        public TowerStateMachine StateMachine => _stateMachine;
+
+        [Inject]
+        public void Construct(TowerSystem towerSystem)
         {
-            _coroutineRunner = coroutineRunner;
+            _towerSystem = towerSystem;
+            _towerSystem.RegisterTower(this);
         }
 
-        private void Update()
+        public void Initialize(TowerStateMachine stateMachine, Blackboard blackboard)
         {
-            UpdateEnemiesInRange();
-            TryAttack();
+            _stateMachine = stateMachine;
+            _blackboard = blackboard;
         }
 
-        private void UpdateEnemiesInRange()
+        private void OnTriggerEnter(Collider other)
         {
-            _enemiesInRange.Clear();
-            var enemies = FindObjectsOfType<Enemy>();
-
-            foreach (var enemy in enemies)
+            if (other.TryGetComponent<Enemy>(out var enemy))
             {
-                if (Vector3.Distance(transform.position, enemy.transform.position) <= _settings.AttackRadius)
-                {
-                    _enemiesInRange.Add(enemy);
-                }
+                Debug.Log($"Enemy {enemy.name} entered tower range");
+                _enemiesInRange.Add(enemy);
+                _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
+                OnEnemyEntered?.Invoke(enemy);
             }
         }
 
-        private void TryAttack()
+        private void OnTriggerExit(Collider other)
         {
-            _attackTimer -= Time.deltaTime;
-            if (_attackTimer > 0) return;
-
-            Enemy target = FindClosestEnemy();
-            if (target != null)
+            if (other.TryGetComponent<Enemy>(out var enemy))
             {
-                Attack(target);
-                _attackTimer = _settings.AttackInterval;
+                _enemiesInRange.Remove(enemy);
+                _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
+                OnEnemyExited?.Invoke(enemy);
             }
         }
 
-        private Enemy FindClosestEnemy()
+        private void OnDestroy()
         {
-            Enemy closestEnemy = null;
-            float minDistance = float.MaxValue;
-
-            foreach (var enemy in _enemiesInRange)
+            _towerSystem.UnregisterTower(this);
+            _stateMachine?.Dispose();
+        }
+        
+        private void OnDrawGizmos()
+        {
+            if (_triggerCollider != null)
             {
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestEnemy = enemy;
-                }
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, _triggerCollider.radius);
             }
-
-            return closestEnemy;
-        }
-
-        private void Attack(Enemy enemy)
-        {
-            enemy.TakeDamage(_settings.Damage);
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, _settings.AttackRadius);
         }
     }
 }

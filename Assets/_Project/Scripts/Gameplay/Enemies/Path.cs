@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Gameplay.Nemesis
+namespace Gameplay.Enemies
 {
     public class Path : MonoBehaviour
     {

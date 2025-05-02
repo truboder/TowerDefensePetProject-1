@@ -1,8 +1,8 @@
-namespace Gameplay.Nemesis.States
+namespace Gameplay.Enemies.States
 {
     public class CompleteState : BaseEnemyState
     {
-        public CompleteState(EnemyStateMachine stateMachine, Blackboard blackboard, Nemesis.Enemy enemy)
+        public CompleteState(EnemyStateMachine stateMachine, Blackboard blackboard, Enemy enemy)
             : base(stateMachine, blackboard, enemy)
         {
         }

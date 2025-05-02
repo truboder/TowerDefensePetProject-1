@@ -1,6 +1,4 @@
-using Gameplay.Nemesis;
-
-namespace Gameplay.Nemesis.States
+namespace Gameplay.Enemies.States
 {
     public abstract class BaseEnemyState
     {
