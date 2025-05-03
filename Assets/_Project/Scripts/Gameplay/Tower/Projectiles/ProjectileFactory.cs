@@ -2,7 +2,7 @@ using Gameplay.Tower.StaticData;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Tower.ProjectileFactory
+namespace Gameplay.Tower.Projectiles
 {
     public class ProjectileFactory
     {
@@ -20,13 +20,13 @@ namespace Gameplay.Tower.ProjectileFactory
         public Projectile Create()
         {
             var projectile = _pool.Get();
-            projectile.OnTargetReached += () => Return(projectile);
+            projectile.OnTargetReached += Return;
             return projectile;
         }
 
         private void Return(Projectile projectile)
         {
-            projectile.OnTargetReached -= () => Return(projectile);
+            projectile.OnTargetReached -= Return;
             _pool.Return(projectile);
         }
     }

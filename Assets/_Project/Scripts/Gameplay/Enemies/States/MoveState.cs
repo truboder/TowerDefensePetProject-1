@@ -14,8 +14,8 @@ namespace Gameplay.Enemies.States
         private int _currentWaypointIndex;
         private bool _hasPath;
 
-        public MoveState(EnemyStateMachine stateMachine, Blackboard blackboard, Enemy enemy)
-            : base(stateMachine, blackboard, enemy)
+        public MoveState(EnemyStateMachine stateMachine, Blackboard blackboard, GameObject owner)
+            : base(stateMachine, blackboard, owner)
         {
         }
 
@@ -29,7 +29,7 @@ namespace Gameplay.Enemies.States
 
             _currentWaypointIndex = 1;
             _hasPath = _waypoints != null && _waypoints.Count > MinWaypointsCount;
-            Enemy.transform.position = _waypoints[0];
+            Owner.transform.position = _waypoints[0];
         }
 
         public override void Update()
@@ -47,19 +47,19 @@ namespace Gameplay.Enemies.States
             }
 
             Vector3 target = _waypoints[_currentWaypointIndex];
-            Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, target, MoveSpeed * Time.deltaTime);
+            Owner.transform.position = Vector3.MoveTowards(Owner.transform.position, target, MoveSpeed * Time.deltaTime);
 
-            if (Enemy.transform.position != target)
+            if (Owner.transform.position != target)
             {
-                Vector3 moveDirection = (target - Enemy.transform.position).normalized;
+                Vector3 moveDirection = (target - Owner.transform.position).normalized;
                 if (moveDirection != Vector3.zero)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                    Enemy.transform.rotation = Quaternion.Slerp(Enemy.transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
+                    Owner.transform.rotation = Quaternion.Slerp(Owner.transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
                 }
             }
 
-            if (Vector3.Distance(Enemy.transform.position, target) <= WaypointBorder)
+            if (Vector3.Distance(Owner.transform.position, target) <= WaypointBorder)
             {
                 _currentWaypointIndex++;
             }

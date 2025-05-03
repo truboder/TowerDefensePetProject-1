@@ -17,42 +17,37 @@ namespace Gameplay.Tower
 
         public event Action<Enemy> OnEnemyEntered;
         public event Action<Enemy> OnEnemyExited;
-        
-        public Vector3 GetPosition() => transform.position;
-        public TowerStateMachine StateMachine => _stateMachine;
 
         [Inject]
         public void Construct(TowerSystem towerSystem)
         {
             _towerSystem = towerSystem;
-            _towerSystem.RegisterTower(this);
         }
+        
+        public Vector3 GetPosition() => transform.position;
+        public TowerStateMachine StateMachine => _stateMachine;
 
         public void Initialize(TowerStateMachine stateMachine, Blackboard blackboard)
         {
             _stateMachine = stateMachine;
             _blackboard = blackboard;
+            _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<Enemy>(out var enemy))
-            {
-                Debug.Log($"Enemy {enemy.name} entered tower range");
-                _enemiesInRange.Add(enemy);
-                _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
-                OnEnemyEntered?.Invoke(enemy);
-            }
+            if (!other.TryGetComponent<Enemy>(out var enemy)) return;
+
+            _enemiesInRange.Add(enemy);
+            OnEnemyEntered?.Invoke(enemy);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent<Enemy>(out var enemy))
-            {
-                _enemiesInRange.Remove(enemy);
-                _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
-                OnEnemyExited?.Invoke(enemy);
-            }
+            if (!other.TryGetComponent<Enemy>(out var enemy)) return;
+
+            _enemiesInRange.Remove(enemy);
+            OnEnemyExited?.Invoke(enemy);
         }
 
         private void OnDestroy()

@@ -1,22 +1,17 @@
+using Common;
 using Gameplay.Enemies;
+using UnityEngine;
 
 namespace Gameplay.Tower.States
 {
-    public abstract class BaseTowerState
+    public abstract class BaseTowerState : BaseState
     {
-        protected BaseTowerState(TowerStateMachine stateMachine, Blackboard blackboard, Tower tower)
-        {
-            StateMachine = stateMachine;
-            Blackboard = blackboard;
-            Tower = tower;
-        }
-        
-        protected TowerStateMachine StateMachine { get; }
-        protected Blackboard Blackboard { get; }
-        protected Tower Tower { get; }
+        protected readonly GameObject Owner;
 
-        public abstract void Enter();
-        public abstract void Update();
-        public abstract void Exit();
+        protected BaseTowerState(StateMachine stateMachine, Blackboard blackboard, GameObject owner)
+            : base(stateMachine, blackboard)
+        {
+            Owner = owner;
+        }
     }
 }

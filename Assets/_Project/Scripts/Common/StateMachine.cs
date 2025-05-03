@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+
+namespace Common
+{
+    public abstract class StateMachine : IDisposable
+    {
+        private readonly Dictionary<Type, BaseState> _states = new();
+        public BaseState CurrentState { get; private set; }
+        public event Action<Type> OnStateChanged;
+
+        public void AddState(BaseState state)
+        {
+            _states.Add(state.GetType(), state);
+        }
+
+        public void SetState<T>() where T : BaseState
+        {
+            var type = typeof(T);
+            if (CurrentState?.GetType() == type) return;
+            if (!_states.TryGetValue(type, out var state)) return;
+
+            CurrentState?.Exit();
+            CurrentState = state;
+            CurrentState.Enter();
+            OnStateChanged?.Invoke(type);
+        }
+
+        public void Update()
+        {
+            CurrentState?.Update();
+        }
+
+        public void Dispose()
+        {
+            CurrentState?.Exit();
+            _states.Clear();
+        }
+    }
+}

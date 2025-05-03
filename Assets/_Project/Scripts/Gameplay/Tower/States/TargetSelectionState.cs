@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using Gameplay.Enemies;
 using Gameplay.Tower.StaticData;
+using UnityEngine;
 
 namespace Gameplay.Tower.States
 {
-    public class IdleState : BaseTowerState
+    public class TargetSelectionState : BaseTowerState
     {
         private readonly TowerSettings _settings;
 
-        public IdleState(TowerStateMachine stateMachine, Blackboard blackboard, Gameplay.Tower.Tower tower, TowerSettings settings)
-            : base(stateMachine, blackboard, tower)
+        public TargetSelectionState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject onwer, TowerSettings settings)
+            : base(stateMachine, blackboard, onwer)
         {
             _settings = settings;
         }

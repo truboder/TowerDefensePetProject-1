@@ -41,9 +41,9 @@ namespace Gameplay.Enemies.Factory
             blackboard.TrySetData("Waypoints", waypoints);
 
             EnemyStateMachine stateMachine = new EnemyStateMachine();
-            stateMachine.AddState(new MoveState(stateMachine, blackboard, enemy));
-            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy, _playerHealthService));
-            stateMachine.AddState(new CompleteState(stateMachine, blackboard, enemy));
+            stateMachine.AddState(new MoveState(stateMachine, blackboard, enemy.gameObject));
+            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy.gameObject, _playerHealthService));
+            stateMachine.AddState(new CompleteState(stateMachine, blackboard, enemy.gameObject));
             stateMachine.SetState<MoveState>();
 
             enemy.Initialize(stateMachine, blackboard, _enemyHealthService);

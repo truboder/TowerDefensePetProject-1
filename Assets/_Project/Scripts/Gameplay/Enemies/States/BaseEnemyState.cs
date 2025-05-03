@@ -1,20 +1,16 @@
+using Common;
+using UnityEngine;
+
 namespace Gameplay.Enemies.States
 {
-    public abstract class BaseEnemyState
+    public abstract class BaseEnemyState : BaseState
     {
-        protected BaseEnemyState(EnemyStateMachine stateMachine, Blackboard blackboard, Enemy enemy)
-        {
-            StateMachine = stateMachine;
-            Blackboard = blackboard;
-            Enemy = enemy;
-        }
-        
-        protected EnemyStateMachine StateMachine { get; }
-        protected Blackboard Blackboard { get; }
-        protected Enemy Enemy { get; }
+        protected readonly GameObject Owner;
 
-        public abstract void Enter();
-        public abstract void Update();
-        public abstract void Exit();
+        protected BaseEnemyState(StateMachine stateMachine, Blackboard blackboard, GameObject owner)
+            : base(stateMachine, blackboard)
+        {
+            Owner = owner;
+        }
     }
 }

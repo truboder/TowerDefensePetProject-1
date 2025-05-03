@@ -1,4 +1,4 @@
-using Gameplay.Tower.ProjectileFactory;
+using Gameplay.Tower.Projectiles;
 using UnityEngine;
 
 namespace Gameplay.Tower.StaticData
@@ -7,6 +7,7 @@ namespace Gameplay.Tower.StaticData
     public class TowerSettings : ScriptableObject
     {
         [Header("General Settings")]
+        public Tower TowerPrefab;
         public Projectile ProjectilePrefab;
         public float Range = 5f;
         public float FireRate = 1f;

@@ -1,4 +1,5 @@
 using Gameplay.Player;
+using UnityEngine;
 
 namespace Gameplay.Enemies.States
 {
@@ -6,8 +7,8 @@ namespace Gameplay.Enemies.States
     {
         private readonly HealthService _healthService;
 
-        public AttackState(EnemyStateMachine stateMachine, Blackboard blackboard, Enemy enemy, HealthService healthService)
-            : base(stateMachine, blackboard, enemy)
+        public AttackState(EnemyStateMachine stateMachine, Blackboard blackboard, GameObject owner, HealthService healthService)
+            : base(stateMachine, blackboard, owner)
         {
             _healthService = healthService;
         }

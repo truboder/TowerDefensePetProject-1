@@ -1,9 +1,11 @@
+using UnityEngine;
+
 namespace Gameplay.Enemies.States
 {
     public class CompleteState : BaseEnemyState
     {
-        public CompleteState(EnemyStateMachine stateMachine, Blackboard blackboard, Enemy enemy)
-            : base(stateMachine, blackboard, enemy)
+        public CompleteState(EnemyStateMachine stateMachine, Blackboard blackboard, GameObject owner)
+            : base(stateMachine, blackboard, owner)
         {
         }
 
