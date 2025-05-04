@@ -6,10 +6,10 @@ namespace Gameplay.Tower.Projectiles
 {
     public class Projectile : MonoBehaviour
     {
+        private const float HitDistance = 0.5f;
         private float _speed = 20f;
         private Enemy _target;
         private int _damage;
-        private const float _hitDistance = 0.5f;
 
         public event Action<Projectile> OnTargetReached;
 
@@ -21,7 +21,7 @@ namespace Gameplay.Tower.Projectiles
 
         private void FixedUpdate()
         {
-            if (_target == null || !_target.HealthService.IsAlive)
+            if (_target == null || !_target.Health.IsAlive)
             {
                 OnTargetReached?.Invoke(this);
                 return;
@@ -29,9 +29,9 @@ namespace Gameplay.Tower.Projectiles
 
             transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed * Time.fixedDeltaTime);
 
-            if (Vector3.Distance(transform.position, _target.transform.position) <= _hitDistance)
+            if (Vector3.Distance(transform.position, _target.transform.position) <= HitDistance)
             {
-                _target.HealthService.TakeDamage(_damage);
+                _target.Health.TakeDamage(_damage);
                 OnTargetReached?.Invoke(this);
             }
         }

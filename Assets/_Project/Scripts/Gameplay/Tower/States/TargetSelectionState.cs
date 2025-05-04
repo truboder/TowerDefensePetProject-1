@@ -7,6 +7,9 @@ namespace Gameplay.Tower.States
 {
     public class TargetSelectionState : BaseTowerState
     {
+        private const string EnemiesInRangeKey = "EnemiesInRange";
+        private const string TargetKey = "Target";
+        
         private readonly TowerSettings _settings;
 
         public TargetSelectionState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject onwer, TowerSettings settings)
@@ -21,9 +24,9 @@ namespace Gameplay.Tower.States
 
         public override void Update()
         {
-            if (Blackboard.TryGetData("EnemiesInRange", out List<Enemy> enemies) && enemies.Count > 0)
+            if (Blackboard.TryGetData(EnemiesInRangeKey, out List<Enemy> enemies) && enemies.Count > 0)
             {
-                Blackboard.TrySetData("Target", enemies[0]);
+                Blackboard.TrySetData(TargetKey, enemies[0]);
                 StateMachine.SetState<AttackState>();
             }
         }

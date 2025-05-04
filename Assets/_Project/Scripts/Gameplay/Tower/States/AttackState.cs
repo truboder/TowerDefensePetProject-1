@@ -7,6 +7,8 @@ namespace Gameplay.Tower.States
 {
     public class AttackState : BaseTowerState
     {
+        private const string TargetKey = "Target";
+        
         private readonly ProjectileFactory _projectileFactory;
         private readonly TowerSettings _settings;
         private float _lastAttackTime;
@@ -26,13 +28,17 @@ namespace Gameplay.Tower.States
 
         public override void Update()
         {
-            if (!Blackboard.TryGetData("Target", out Enemy target) || target == null)
+            if (!Blackboard.TryGetData(TargetKey, out Enemy target) || target == null)
             {
                 StateMachine.SetState<TargetSelectionState>();
                 return;
             }
 
-            if (Time.time - _lastAttackTime < _settings.FireRate) return;
+            if (Time.time - _lastAttackTime < _settings.FireRate)
+            {
+                return;
+            }
+
 
             Fire(target);
             _lastAttackTime = Time.time;

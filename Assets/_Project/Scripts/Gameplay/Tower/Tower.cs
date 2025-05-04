@@ -8,6 +8,8 @@ namespace Gameplay.Tower
 {
     public class Tower : MonoBehaviour
     {
+        private const string EnemiesInRangeKey = "EnemiesInRange";
+        
         [SerializeField] private SphereCollider _triggerCollider;
         
         private TowerStateMachine _stateMachine;
@@ -24,14 +26,14 @@ namespace Gameplay.Tower
             _towerSystem = towerSystem;
         }
         
-        public Vector3 GetPosition() => transform.position;
+        // public Vector3 GetPosition => transform.position;
         public TowerStateMachine StateMachine => _stateMachine;
 
         public void Initialize(TowerStateMachine stateMachine, Blackboard blackboard)
         {
             _stateMachine = stateMachine;
             _blackboard = blackboard;
-            _blackboard.TrySetData("EnemiesInRange", _enemiesInRange);
+            _blackboard.TrySetData(EnemiesInRangeKey, _enemiesInRange);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -44,8 +46,11 @@ namespace Gameplay.Tower
 
         private void OnTriggerExit(Collider other)
         {
-            if (!other.TryGetComponent<Enemy>(out var enemy)) return;
-
+            if (!other.TryGetComponent<Enemy>(out var enemy))
+            {
+                return;
+            }
+            
             _enemiesInRange.Remove(enemy);
             OnEnemyExited?.Invoke(enemy);
         }

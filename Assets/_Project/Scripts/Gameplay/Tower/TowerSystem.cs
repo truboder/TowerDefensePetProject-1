@@ -21,7 +21,10 @@ namespace Gameplay.Tower
 
         public void RegisterTower(Tower tower)
         {
-            if (_towers.Contains(tower)) return;
+            if (_towers.Contains(tower))
+            {
+                return;
+            }
             
             _towers.Add(tower);
         }

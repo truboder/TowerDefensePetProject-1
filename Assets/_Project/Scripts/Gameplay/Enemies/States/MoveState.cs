@@ -9,6 +9,8 @@ namespace Gameplay.Enemies.States
         private const float WaypointBorder = 0.1f;
         private const float MoveSpeed = 10f;
         private const float RotationSpeed = 10f;
+        
+        private const string WaypointsKey = "Waypoints";
 
         private List<Vector3> _waypoints;
         private int _currentWaypointIndex;
@@ -21,7 +23,7 @@ namespace Gameplay.Enemies.States
 
         public override void Enter()
         {
-            if (!Blackboard.TryGetData("Waypoints", out _waypoints))
+            if (!Blackboard.TryGetData(WaypointsKey, out _waypoints))
             {
                 _hasPath = false;
                 return;
@@ -52,6 +54,7 @@ namespace Gameplay.Enemies.States
             if (Owner.transform.position != target)
             {
                 Vector3 moveDirection = (target - Owner.transform.position).normalized;
+                
                 if (moveDirection != Vector3.zero)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDirection);

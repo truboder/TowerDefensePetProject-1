@@ -21,7 +21,6 @@ namespace Infrastructure
         {
             Container.Bind<ILevelDataService>().To<LevelDataService>().AsSingle().NonLazy();
             Container.Bind<HealthService>().AsSingle().NonLazy();
-            Container.Bind<EnemyHealthService>().AsSingle().NonLazy();
 
             Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
             Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().NonLazy();

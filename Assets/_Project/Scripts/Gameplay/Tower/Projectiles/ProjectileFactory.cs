@@ -10,10 +10,10 @@ namespace Gameplay.Tower.Projectiles
         private readonly TowerSettings _settings;
         private readonly DiContainer _container;
 
-        public ProjectileFactory(TowerSettings settings, DiContainer container)
+        public ProjectileFactory(DiContainer container, TowerSettings settings)
         {
-            _settings = settings;
             _container = container;
+            _settings = settings;
             _pool = new ComponentPool<Projectile>(_settings.ProjectilePrefab, _container);
         }
 

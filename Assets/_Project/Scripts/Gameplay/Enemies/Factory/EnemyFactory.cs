@@ -11,21 +11,21 @@ namespace Gameplay.Enemies.Factory
 {
     public class EnemyFactory : IEnemyFactory
     {
+        private const string WaypointsKey = "Waypoints";
+        
         private readonly ComponentPool<Enemy> _pool;
         private readonly SpawnSettings _spawnSettings;
         private readonly ILevelDataService _levelDataService;
         private readonly DiContainer _container;
         private readonly HealthService _playerHealthService;
-        private readonly EnemyHealthService _enemyHealthService;
 
-        public EnemyFactory(SpawnSettings spawnSettings, ILevelDataService levelDataService, 
-            DiContainer container, HealthService playerHealthService, EnemyHealthService enemyHealthService)
+        public EnemyFactory(DiContainer container, SpawnSettings spawnSettings, ILevelDataService levelDataService, 
+            HealthService playerHealthService)
         {
+            _container = container;
             _spawnSettings = spawnSettings;
             _levelDataService = levelDataService;
-            _container = container;
             _playerHealthService = playerHealthService;
-            _enemyHealthService = enemyHealthService;
             _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
@@ -38,7 +38,7 @@ namespace Gameplay.Enemies.Factory
             List<Vector3> waypoints = path.GetWaypointsPositions();
             
             Blackboard blackboard = new Blackboard();
-            blackboard.TrySetData("Waypoints", waypoints);
+            blackboard.TrySetData(WaypointsKey, waypoints);
 
             EnemyStateMachine stateMachine = new EnemyStateMachine();
             stateMachine.AddState(new MoveState(stateMachine, blackboard, enemy.gameObject));
@@ -46,7 +46,7 @@ namespace Gameplay.Enemies.Factory
             stateMachine.AddState(new CompleteState(stateMachine, blackboard, enemy.gameObject));
             stateMachine.SetState<MoveState>();
 
-            enemy.Initialize(stateMachine, blackboard, _enemyHealthService);
+            enemy.Initialize(stateMachine, blackboard, new Health());
             enemy.OnPathCompletedEvent += () => Return(enemy);
 
             return enemy;

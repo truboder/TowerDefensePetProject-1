@@ -14,11 +14,11 @@ namespace Gameplay.Tower.Factory
         private readonly DiContainer _container;
         private readonly TowerSystem _towerSystem;
 
-        public TowerFactory(TowerSettings settings, ProjectileFactory projectileFactory, DiContainer container, TowerSystem towerSystem)
+        public TowerFactory(DiContainer container, TowerSettings settings, ProjectileFactory projectileFactory, TowerSystem towerSystem)
         {
+            _container = container;
             _settings = settings;
             _projectileFactory = projectileFactory;
-            _container = container;
             _towerSystem = towerSystem;
         }
 

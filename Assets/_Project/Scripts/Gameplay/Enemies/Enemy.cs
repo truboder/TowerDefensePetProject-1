@@ -1,6 +1,5 @@
 using System;
 using Gameplay.Enemies.States;
-using Gameplay.Player;
 using UnityEngine;
 using Zenject;
 
@@ -10,24 +9,25 @@ namespace Gameplay.Enemies
     {
         private EnemyStateMachine _stateMachine;
         private Blackboard _blackboard;
-        private EnemyHealthService _healthService;
+        private Health _health;
 
         public event Action OnPathCompletedEvent;
 
+        public Health Health => _health;
+
         [Inject]
-        public void Construct(HealthService healthService, EnemyHealthService enemyHealthService)
+        public void Construct()
         {
-            _healthService = enemyHealthService;
         }
 
-        public void Initialize(EnemyStateMachine stateMachine, Blackboard blackboard, EnemyHealthService healthService)
+        public void Initialize(EnemyStateMachine stateMachine, Blackboard blackboard, Health health)
         {
             _blackboard = blackboard;
             _stateMachine = stateMachine;
-            _healthService = healthService;
+            _health = health;
 
             _stateMachine.OnStateChanged += HandleStateChanged;
-            _healthService.OnDeath += HandleDeath;
+            _health.OnDeath += HandleDeath;
         }
 
         private void HandleStateChanged(Type stateType)
@@ -52,14 +52,12 @@ namespace Gameplay.Enemies
         {
             _stateMachine?.Dispose();
             _stateMachine.OnStateChanged -= HandleStateChanged;
-            _healthService.OnDeath -= HandleDeath;
+            _health.OnDeath -= HandleDeath;
         }
 
         public void OnPathCompleted()
         {
             OnPathCompletedEvent?.Invoke();
         }
-
-        public EnemyHealthService HealthService => _healthService;
     }
 }

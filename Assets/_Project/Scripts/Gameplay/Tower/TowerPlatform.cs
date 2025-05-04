@@ -1,14 +1,13 @@
 using Gameplay.Tower.Factory;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
 namespace Gameplay.Tower
 {
-    public class TowerPlatform : MonoBehaviour, IPointerClickHandler
+    public class TowerPlatform : MonoBehaviour
     {
         private TowerFactory _towerFactory;
-        private bool _hasTower;
+        private bool _hasTower = false;
 
         [Inject]
         public void Construct(TowerFactory towerFactory)
@@ -16,12 +15,27 @@ namespace Gameplay.Tower
             _towerFactory = towerFactory;
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        private void Update()
         {
-            if (_hasTower) return;
+            if (_hasTower)
+            {
+                return;
+            }
             
-            _towerFactory.Create(transform.position);
-            _hasTower = true;
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    if (hit.collider.gameObject == gameObject)
+                    {
+                        Debug.Log($"Clicked on {gameObject.name}");
+                        _towerFactory.Create(transform.position);
+                        _hasTower = true;
+                    }
+                }
+            }
         }
     }
 }
