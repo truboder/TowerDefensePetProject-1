@@ -1,6 +1,7 @@
 using Gameplay.Enemies;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
+using Gameplay.Inputs;
 using Gameplay.Levels;
 using Gameplay.Player;
 using Gameplay.Tower;
@@ -30,6 +31,9 @@ namespace Infrastructure
             Container.Bind<ProjectileFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerSystem>().AsSingle().NonLazy();
             Container.Bind<TowerFactory>().AsSingle().NonLazy();
+
+            Container.Bind<ICameraService>().To<CameraService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ClickSystem>().AsSingle().NonLazy();
         }
     }
 }

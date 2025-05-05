@@ -15,27 +15,15 @@ namespace Gameplay.Tower
             _towerFactory = towerFactory;
         }
 
-        private void Update()
+        public void HandleClick()
         {
             if (_hasTower)
             {
                 return;
             }
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    if (hit.collider.gameObject == gameObject)
-                    {
-                        Debug.Log($"Clicked on {gameObject.name}");
-                        _towerFactory.Create(transform.position);
-                        _hasTower = true;
-                    }
-                }
-            }
+            _towerFactory.Create(transform.position);
+            _hasTower = true;
         }
     }
 }
