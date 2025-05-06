@@ -29,8 +29,11 @@ namespace Gameplay.Tower.Factory
 
             var blackboard = new Blackboard();
             var stateMachine = new TowerStateMachine();
+            
             stateMachine.AddState(new TargetSelectionState(stateMachine, blackboard, tower.gameObject, _settings));
+            stateMachine.AddState(new ValidateState(stateMachine, blackboard, tower.gameObject, _settings));
             stateMachine.AddState(new AttackState(stateMachine, blackboard, tower.gameObject, _projectileFactory, _settings));
+            stateMachine.AddState(new CooldownState(stateMachine, blackboard, tower.gameObject, _settings));
             tower.Initialize(stateMachine, blackboard);
             stateMachine.SetState<TargetSelectionState>();
 

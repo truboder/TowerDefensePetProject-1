@@ -11,7 +11,6 @@ namespace Gameplay.Tower.States
         
         private readonly ProjectileFactory _projectileFactory;
         private readonly TowerSettings _settings;
-        private float _lastAttackTime;
 
         public AttackState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject owner, 
             ProjectileFactory projectileFactory, TowerSettings settings)
@@ -23,36 +22,33 @@ namespace Gameplay.Tower.States
 
         public override void Enter()
         {
-            _lastAttackTime = Time.time;
+            Fire();
         }
 
         public override void Update()
+        {
+
+        }
+
+        public override void Exit()
+        {
+
+        }
+
+        private void Fire()
         {
             if (!Blackboard.TryGetData(TargetKey, out Enemy target) || target == null)
             {
                 StateMachine.SetState<TargetSelectionState>();
                 return;
             }
-
-            if (Time.time - _lastAttackTime < _settings.FireRate)
-            {
-                return;
-            }
-
-
-            Fire(target);
-            _lastAttackTime = Time.time;
-        }
-
-        public override void Exit()
-        {
-        }
-
-        private void Fire(Enemy target)
-        {
+            
             var projectile = _projectileFactory.Create();
+            
             projectile.transform.position = Owner.transform.position;
             projectile.Initialize(target, _settings.Damage);
+
+            StateMachine.SetState<CooldownState>();
         }
     }
 }

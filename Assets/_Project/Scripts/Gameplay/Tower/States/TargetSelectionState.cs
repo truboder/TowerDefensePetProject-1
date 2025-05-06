@@ -12,27 +12,38 @@ namespace Gameplay.Tower.States
         
         private readonly TowerSettings _settings;
 
-        public TargetSelectionState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject onwer, TowerSettings settings)
-            : base(stateMachine, blackboard, onwer)
+        public TargetSelectionState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject owner, TowerSettings settings)
+            : base(stateMachine, blackboard, owner)
         {
             _settings = settings;
         }
 
         public override void Enter()
         {
+
         }
 
         public override void Update()
         {
-            if (Blackboard.TryGetData(EnemiesInRangeKey, out List<Enemy> enemies) && enemies.Count > 0)
+            if (!Blackboard.TryGetData(EnemiesInRangeKey, out List<Enemy> enemies))
             {
-                Blackboard.TrySetData(TargetKey, enemies[0]);
-                StateMachine.SetState<AttackState>();
+                return;
+            }
+            
+            enemies.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeSelf || !enemy.Health.IsAlive);
+
+            if (enemies.Count > 0)
+            {
+                var target = enemies[0];
+                
+                Blackboard.TrySetData(TargetKey, target);
+                StateMachine.SetState<ValidateState>();
             }
         }
 
         public override void Exit()
         {
+
         }
     }
 }

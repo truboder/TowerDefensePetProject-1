@@ -16,6 +16,6 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 6851088429479312418, guid: a9bd3c64ae606614ca8b459a9d14d488, type: 3}
   Range: 5
   FireRate: 1
-  Damage: 1
+  Damage: 4
   InitialPoolSize: 10
   MaxPoolSize: 50
