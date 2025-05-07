@@ -16,14 +16,12 @@ namespace Gameplay.Player
         {
             _maxHealth = maxHealth;
             Health = maxHealth;
-            Debug.Log($"HealthService initialized with {Health}/{_maxHealth} health");
         }
 
         public void TakeDamage(int amount)
         {
             if (!IsAlive)
             {
-                Debug.Log("HealthService: Player is already dead!");
                 return;
             }
 
@@ -43,7 +41,6 @@ namespace Gameplay.Player
         {
             Health = Mathf.Min(value, _maxHealth);
             OnHealthChanged?.Invoke(Health);
-            Debug.Log($"HealthService: Health reset to {Health}/{_maxHealth}");
         }
     }
 }
