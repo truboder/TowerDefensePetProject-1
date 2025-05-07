@@ -8,6 +8,7 @@ using Gameplay.Tower;
 using Gameplay.Tower.Factory;
 using Gameplay.Tower.Projectiles;
 using Gameplay.Tower.StaticData;
+using Static_Data.UI;
 using UnityEngine;
 using Zenject;
 
@@ -17,6 +18,7 @@ namespace Infrastructure
     {
         [SerializeField] private SpawnSettings _enemySpawnSettings;
         [SerializeField] private TowerSettings _towerSettings;
+        [SerializeField] private PlayerHealthUI _playerHealthUI;
 
         public override void InstallBindings()
         {
@@ -34,6 +36,8 @@ namespace Infrastructure
 
             Container.Bind<ICameraService>().To<CameraService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ClickSystem>().AsSingle().NonLazy();
+            
+            Container.Bind<PlayerHealthUI>().FromInstance(_playerHealthUI).AsSingle().NonLazy();
         }
     }
 }
