@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 518aa98baddc49e3a07191e148dd6c4e, type: 3}
   m_Name: ScoreSettings
   m_EditorClassIdentifier: 
-  EnemyScores: []
+  EnemyScores:
+  - EnemyType: DefaultEnemy
+    ScoreValue: 5
