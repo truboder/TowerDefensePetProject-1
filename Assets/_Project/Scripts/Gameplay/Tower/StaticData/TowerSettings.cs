@@ -12,6 +12,7 @@ namespace Gameplay.Tower.StaticData
         public float Range = 5f;
         public float FireRate = 1f;
         public int Damage = 1;
+        public int TowerCost = 10; 
 
         [Header("Pool Settings")]
         public int InitialPoolSize = 10;

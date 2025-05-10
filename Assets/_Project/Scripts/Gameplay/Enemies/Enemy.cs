@@ -1,5 +1,6 @@
 using System;
 using Gameplay.Enemies.States;
+using Gameplay.Scoring;
 using UnityEngine;
 using Zenject;
 
@@ -10,14 +11,17 @@ namespace Gameplay.Enemies
         private EnemyStateMachine _stateMachine;
         private Blackboard _blackboard;
         private Health _health;
+        private ScoreService _scoreService;
+        private string _enemyType = "DefaultEnemy";
 
         public event Action OnPathCompletedEvent;
-
         public Health Health => _health;
+        public string EnemyType => _enemyType;
 
         [Inject]
-        public void Construct()
+        public void Construct(ScoreService scoreService)
         {
+            _scoreService = scoreService;
         }
 
         public void Initialize(EnemyStateMachine stateMachine, Blackboard blackboard, Health health)
@@ -40,6 +44,7 @@ namespace Gameplay.Enemies
 
         private void HandleDeath()
         {
+            _scoreService.AddScore(_enemyType);
             OnPathCompleted();
         }
 
