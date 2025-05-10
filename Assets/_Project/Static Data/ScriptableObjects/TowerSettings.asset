@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa81bc070be84bdaa4054c6c93ea6512, type: 3}
-  m_Name: TowerAttackSettings
+  m_Name: TowerSettings
   m_EditorClassIdentifier: 
   TowerPrefab: {fileID: -43684008742444579, guid: 38a6a8c2d5f309040a50d00401dd6c17, type: 3}
   ProjectilePrefab: {fileID: 6851088429479312418, guid: a9bd3c64ae606614ca8b459a9d14d488, type: 3}
