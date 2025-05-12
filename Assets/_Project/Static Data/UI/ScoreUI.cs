@@ -9,6 +9,7 @@ namespace Static_Data.UI
     public class ScoreUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
+        
         private ScoreService _scoreService;
 
         [Inject]
