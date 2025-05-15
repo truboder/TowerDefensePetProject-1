@@ -1,13 +1,13 @@
 using Gameplay.Enemies;
 
-namespace Common
+namespace Common.StateMachine
 {
     public abstract class BaseState
     {
-        protected readonly StateMachine StateMachine;
+        protected readonly Common.StateMachine.StateMachine StateMachine;
         protected readonly Blackboard Blackboard;
 
-        protected BaseState(StateMachine stateMachine, Blackboard blackboard)
+        protected BaseState(Common.StateMachine.StateMachine stateMachine, Blackboard blackboard)
         {
             StateMachine = stateMachine;
             Blackboard = blackboard;

@@ -29,7 +29,7 @@ namespace Gameplay.Enemies.Factory
             _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
-        public Enemy Create()
+        public Enemy Create(EnemyType enemyType)
         {
             Enemy enemy = _pool.Get();
             enemy.transform.position = _levelDataService.GetSpawnPosition();
@@ -47,6 +47,7 @@ namespace Gameplay.Enemies.Factory
             stateMachine.SetState<MoveState>();
 
             enemy.Initialize(stateMachine, blackboard, new Health());
+            enemy.SetEnemyType(enemyType); // Устанавливаем тип врага
             enemy.OnPathCompletedEvent += () => Return(enemy);
 
             return enemy;

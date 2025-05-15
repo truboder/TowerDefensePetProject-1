@@ -2,7 +2,7 @@ using System.Collections;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
 using UnityEngine;
-using Utils;
+using Common.Coroutines;
 using Zenject;
 
 namespace Gameplay.Enemies
@@ -43,7 +43,7 @@ namespace Gameplay.Enemies
                 {
                     if (_spawnedCount >= _spawnSettings.MaxPoolSize) break;
 
-                    SpawnSingleEnemy();
+                    SpawnSingleEnemy(wave.EnemyType);
                     yield return new WaitForSeconds(wave.SpawnInterval);
                 }
 
@@ -60,10 +60,8 @@ namespace Gameplay.Enemies
         private WaveConfig GetCurrentWave()
         {
             if (_spawnSettings.InfiniteWaves)
-            {
                 return _spawnSettings.Waves[1];
-            }
-
+            
             return _spawnSettings.Waves[_currentWave];
         }
 
@@ -72,9 +70,9 @@ namespace Gameplay.Enemies
             return _spawnSettings.InfiniteWaves || _currentWave < _spawnSettings.Waves.Count - 1;
         }
 
-        private void SpawnSingleEnemy()
+        private void SpawnSingleEnemy(EnemyType enemyType)
         {
-            _enemyFactory.Create();
+            _enemyFactory.Create(enemyType);
             _spawnedCount++;
         }
     }

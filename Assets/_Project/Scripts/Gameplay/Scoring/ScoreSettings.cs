@@ -1,4 +1,5 @@
 using UnityEngine;
+using Gameplay.Enemies.Static_Data; // Добавлено для EnemyType
 
 namespace Gameplay.Scoring
 {
@@ -8,13 +9,13 @@ namespace Gameplay.Scoring
         [System.Serializable]
         public class EnemyScore
         {
-            public string EnemyType;
+            public EnemyType EnemyType; // Изменено с string на EnemyType
             public int ScoreValue;
         }
 
         public EnemyScore[] EnemyScores;
 
-        public int GetScoreForEnemy(string enemyType)
+        public int GetScoreForEnemy(EnemyType enemyType) // Изменено с string на EnemyType
         {
             foreach (var score in EnemyScores)
             {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Common
+namespace Common.StateMachine
 {
     public abstract class StateMachine : IDisposable
     {

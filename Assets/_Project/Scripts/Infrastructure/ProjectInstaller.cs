@@ -1,4 +1,4 @@
-using Utils;
+using Common.Coroutines;
 using Zenject;
 
 namespace Infrastructure

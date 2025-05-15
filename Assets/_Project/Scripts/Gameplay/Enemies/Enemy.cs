@@ -1,6 +1,7 @@
 using System;
 using Gameplay.Enemies.States;
 using Gameplay.Scoring;
+using Gameplay.Enemies.Static_Data; // Добавлено для EnemyType
 using UnityEngine;
 using Zenject;
 
@@ -12,11 +13,11 @@ namespace Gameplay.Enemies
         private Blackboard _blackboard;
         private Health _health;
         private ScoreService _scoreService;
-        private string _enemyType = "DefaultEnemy";
+        private EnemyType _enemyType = EnemyType.DefaultEnemy;
 
         public event Action OnPathCompletedEvent;
         public Health Health => _health;
-        public string EnemyType => _enemyType;
+        public EnemyType EnemyType => _enemyType;
 
         [Inject]
         public void Construct(ScoreService scoreService)
@@ -33,6 +34,11 @@ namespace Gameplay.Enemies
             _stateMachine.OnStateChanged += HandleStateChanged;
             _health.OnDeath += HandleDeath;
         }
+        
+        public void SetEnemyType(EnemyType enemyType)
+        {
+            _enemyType = enemyType;
+        }
 
         private void HandleStateChanged(Type stateType)
         {
@@ -44,7 +50,7 @@ namespace Gameplay.Enemies
 
         private void HandleDeath()
         {
-            _scoreService.AddScore(_enemyType);
+            _scoreService.AddScore(_enemyType); // Изменено на передачу enum
             OnPathCompleted();
         }
 

@@ -1,7 +1,7 @@
-namespace Gameplay.Enemies.Factory
+using Gameplay.Enemies;
+using Gameplay.Enemies.Static_Data;
+
+public interface IEnemyFactory
 {
-    public interface IEnemyFactory
-    {
-        Enemy Create();
-    }
+    Enemy Create(EnemyType enemyType);
 }

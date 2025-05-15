@@ -1,4 +1,4 @@
-using Common;
+using Common.StateMachine;
 using UnityEngine;
 
 namespace Gameplay.Enemies.States

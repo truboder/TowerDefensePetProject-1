@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Utils
+namespace Common.Coroutines
 {
     public class CoroutineRunService : ICoroutineRunService
     {

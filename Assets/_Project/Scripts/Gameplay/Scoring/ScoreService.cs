@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Gameplay.Enemies.Static_Data; // Добавлено для EnemyType
 
 namespace Gameplay.Scoring
 {
@@ -18,7 +19,7 @@ namespace Gameplay.Scoring
             _currentScore = _startingScore;
         }
 
-        public void AddScore(string enemyType)
+        public void AddScore(EnemyType enemyType) // Изменено с string на EnemyType
         {
             int scoreToAdd = _scoreSettings.GetScoreForEnemy(enemyType);
             _currentScore += scoreToAdd;
