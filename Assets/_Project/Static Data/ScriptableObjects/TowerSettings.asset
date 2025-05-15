@@ -17,5 +17,6 @@ MonoBehaviour:
   Range: 5
   FireRate: 1
   Damage: 4
+  TowerCost: 10
   InitialPoolSize: 10
   MaxPoolSize: 50

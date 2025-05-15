@@ -19,10 +19,13 @@ MonoBehaviour:
   - EnemyCount: 5
     SpawnInterval: 0.5
     DelayAfterWave: 3
+    EnemyType: 0
   - EnemyCount: 4
     SpawnInterval: 0.5
     DelayAfterWave: 3
+    EnemyType: 0
   - EnemyCount: 2
     SpawnInterval: 0.5
     DelayAfterWave: 3
+    EnemyType: 0
   InfiniteWaves: 0

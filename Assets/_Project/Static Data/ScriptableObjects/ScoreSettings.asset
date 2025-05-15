@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ScoreSettings
   m_EditorClassIdentifier: 
   EnemyScores:
-  - EnemyType: DefaultEnemy
+  - EnemyType: 0
     ScoreValue: 5
