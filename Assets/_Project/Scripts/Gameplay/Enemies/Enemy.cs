@@ -1,7 +1,7 @@
 using System;
 using Gameplay.Enemies.States;
 using Gameplay.Scoring;
-using Gameplay.Enemies.Static_Data; // Добавлено для EnemyType
+using Gameplay.Enemies.Static_Data;
 using UnityEngine;
 using Zenject;
 
@@ -50,7 +50,7 @@ namespace Gameplay.Enemies
 
         private void HandleDeath()
         {
-            _scoreService.AddScore(_enemyType); // Изменено на передачу enum
+            _scoreService.AddScore(_enemyType);
             OnPathCompleted();
         }
 
