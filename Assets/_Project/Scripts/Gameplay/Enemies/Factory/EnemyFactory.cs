@@ -47,7 +47,7 @@ namespace Gameplay.Enemies.Factory
             stateMachine.SetState<MoveState>();
 
             enemy.Initialize(stateMachine, blackboard, new Health());
-            enemy.SetEnemyType(enemyType); // Устанавливаем тип врага
+            enemy.SetEnemyType(enemyType);
             enemy.OnPathCompletedEvent += () => Return(enemy);
 
             return enemy;
