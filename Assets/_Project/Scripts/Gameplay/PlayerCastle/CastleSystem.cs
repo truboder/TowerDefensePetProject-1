@@ -9,11 +9,11 @@ namespace Gameplay.PlayerCastle
 {
     public class CastleSystem : IInitializable
     {
-        private readonly CastleFactory _castleFactory;
+        private readonly ICastleFactory _castleFactory;
         private readonly ILevelDataService _levelDataService;
         private readonly CastleSettings _settings;
 
-        public CastleSystem(CastleFactory castleFactory, ILevelDataService levelDataService, CastleSettings settings)
+        public CastleSystem(ICastleFactory castleFactory, ILevelDataService levelDataService, CastleSettings settings)
         {
             _castleFactory = castleFactory;
             _levelDataService = levelDataService;

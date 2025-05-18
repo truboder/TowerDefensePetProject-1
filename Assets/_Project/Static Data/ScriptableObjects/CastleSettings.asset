@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00ac84ba6c2449dc9141733d3968678a, type: 3}
   m_Name: CastleSettings
   m_EditorClassIdentifier: 
-  CastlePrefab: {fileID: 0}
+  CastlePrefab: {fileID: 9221583320851065407, guid: 5d7b7fa05d0e7674abfe94239392daec, type: 3}
   MaxHealth: 10
   InitialPoolSize: 1
   MaxPoolSize: 1

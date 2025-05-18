@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Gameplay.PlayerCastle;
+using Gameplay.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,33 +11,51 @@ namespace Static_Data.UI
     {
         [SerializeField] private Image _healthBar;
         
+        private ILevelDataService _levelDataService;
         private Castle _castle;
         private Vector3 _originalScale;
         private float _maxHealth;
 
         [Inject]
-        public void Construct(Castle castle)
+        public void Construct(ILevelDataService levelDataService)
         {
-            _castle = castle;
+            _levelDataService = levelDataService;
         }
 
         private void Awake()
         {
             _originalScale = _healthBar.transform.localScale;
+        }
+
+        private void Start()
+        {
+            InitializeCastle();
+        }
+
+        private void InitializeCastle()
+        {
+            _castle = _levelDataService.GetCastle();
+
             _maxHealth = _castle.Health.CurrentHealth;
             UpdateHealthBar(_castle.Health.CurrentHealth);
+            SubscribeToCastleEvents();
         }
 
         private void OnEnable()
         {
-            _castle.Health.OnHealthChanged += UpdateHealthBar;
-            _castle.Health.OnDamageTaken += PlayPulseAnimation;
+            SubscribeToCastleEvents();
         }
 
         private void OnDisable()
         {
             _castle.Health.OnHealthChanged -= UpdateHealthBar;
             _castle.Health.OnDamageTaken -= PlayPulseAnimation;
+        }
+        
+        private void SubscribeToCastleEvents()
+        {
+            _castle.Health.OnHealthChanged += UpdateHealthBar;
+            _castle.Health.OnDamageTaken += PlayPulseAnimation;
         }
 
         private void UpdateHealthBar(int health)
