@@ -1,42 +1,43 @@
+// Static_Data/UI/CastleHealthUI.cs
 using DG.Tweening;
-using Gameplay.Player;
+using Gameplay.PlayerCastle;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
 namespace Static_Data.UI
 {
-    public class PlayerHealthUI : MonoBehaviour
+    public class CastleHealthUI : MonoBehaviour
     {
         [SerializeField] private Image _healthBar;
         
-        private HealthService _healthService;
+        private Castle _castle;
         private Vector3 _originalScale;
         private float _maxHealth;
 
         [Inject]
-        public void Construct(HealthService healthService)
+        public void Construct(Castle castle)
         {
-            _healthService = healthService;
+            _castle = castle;
         }
 
         private void Awake()
         {
             _originalScale = _healthBar.transform.localScale;
-            _maxHealth = _healthService.Health; 
-            UpdateHealthBar(_healthService.Health);
+            _maxHealth = _castle.Health.CurrentHealth;
+            UpdateHealthBar(_castle.Health.CurrentHealth);
         }
 
         private void OnEnable()
         {
-            _healthService.OnHealthChanged += UpdateHealthBar;
-            _healthService.OnDamageTaken += PlayPulseAnimation;
+            _castle.Health.OnHealthChanged += UpdateHealthBar;
+            _castle.Health.OnDamageTaken += PlayPulseAnimation;
         }
 
         private void OnDisable()
         {
-            _healthService.OnHealthChanged -= UpdateHealthBar;
-            _healthService.OnDamageTaken -= PlayPulseAnimation;
+            _castle.Health.OnHealthChanged -= UpdateHealthBar;
+            _castle.Health.OnDamageTaken -= PlayPulseAnimation;
         }
 
         private void UpdateHealthBar(int health)

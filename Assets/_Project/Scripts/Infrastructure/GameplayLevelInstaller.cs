@@ -1,18 +1,21 @@
+// Infrastructure/GameplayLevelInstaller.cs
 using Gameplay.Enemies;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
 using Gameplay.Inputs;
 using Gameplay.Levels;
-using Gameplay.Player;
 using Gameplay.Scoring;
 using Gameplay.Tower;
 using Gameplay.Tower.Factory;
 using Gameplay.Tower.Projectiles;
 using Gameplay.Tower.StaticData;
+using Gameplay.PlayerCastle;
+using Gameplay.PlayerCastle.Factory;
+using Gameplay.PlayerCastle.StaticData;
 using Static_Data.UI;
 using UnityEngine;
 using Zenject;
-
+    
 namespace Infrastructure
 {
     public class GameplayLevelInstaller : MonoInstaller
@@ -20,14 +23,15 @@ namespace Infrastructure
         [SerializeField] private SpawnSettings _enemySpawnSettings;
         [SerializeField] private TowerSettings _towerSettings;
         [SerializeField] private ScoreSettings _scoreSettings;
-        [SerializeField] private PlayerHealthUI _playerHealthUI;
+        [SerializeField] private CastleSettings _castleSettings;
+        [SerializeField] private CastleHealthUI _castleHealthUI;
         [SerializeField] private ScoreUI _scoreUI;
         [SerializeField] private BuildTowerUI _buildTowerUI;
 
         public override void InstallBindings()
         {
             BindLevelServices();
-            BindPlayerServices();
+            BindCastleServices();
             BindEnemyFeature();
             BindTowerFeature();
             BindScoringFeature();
@@ -39,10 +43,21 @@ namespace Infrastructure
             Container.Bind<ILevelDataService>().To<LevelDataService>().AsSingle().NonLazy();
         }
 
-        private void BindPlayerServices()
+        private void BindCastleServices()
         {
-            Container.Bind<HealthService>().AsSingle().NonLazy();
-            Container.Bind<PlayerHealthUI>().FromInstance(_playerHealthUI).AsSingle().NonLazy();
+            if (_castleSettings == null)
+            {
+                Debug.LogError("CastleSettings is null in GameplayLevelInstaller!");
+            }
+            else
+            {
+                Debug.Log("CastleSettings assigned: " + _castleSettings.name);
+            }
+            
+            Container.BindInterfacesAndSelfTo<CastleSettings>().FromInstance(_castleSettings).AsSingle().NonLazy();
+            Container.Bind<ICastleFactory>().To<CastleFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CastleSystem>().AsSingle().NonLazy();
+            Container.Bind<CastleHealthUI>().FromInstance(_castleHealthUI).AsSingle().NonLazy();
         }
 
         private void BindEnemyFeature()

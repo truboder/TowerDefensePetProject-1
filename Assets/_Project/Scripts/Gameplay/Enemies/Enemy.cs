@@ -1,6 +1,7 @@
 using System;
-using Gameplay.Enemies.States;
+using Gameplay.Levels;
 using Gameplay.Scoring;
+using Gameplay.Enemies.States;
 using Gameplay.Enemies.Static_Data;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace Gameplay.Enemies
         private Blackboard _blackboard;
         private Health _health;
         private ScoreService _scoreService;
+        private ILevelDataService _levelDataService;
         private EnemyType _enemyType = EnemyType.DefaultEnemy;
 
         public event Action OnPathCompletedEvent;
@@ -20,9 +22,10 @@ namespace Gameplay.Enemies
         public EnemyType EnemyType => _enemyType;
 
         [Inject]
-        public void Construct(ScoreService scoreService)
+        public void Construct(ScoreService scoreService, ILevelDataService levelDataService)
         {
             _scoreService = scoreService;
+            _levelDataService = levelDataService;
         }
 
         public void Initialize(EnemyStateMachine stateMachine, Blackboard blackboard, Health health)
@@ -34,7 +37,7 @@ namespace Gameplay.Enemies
             _stateMachine.OnStateChanged += HandleStateChanged;
             _health.OnDeath += HandleDeath;
         }
-        
+
         public void SetEnemyType(EnemyType enemyType)
         {
             _enemyType = enemyType;
@@ -44,14 +47,14 @@ namespace Gameplay.Enemies
         {
             if (stateType == typeof(CompleteState))
             {
-                OnPathCompleted();
+                OnPath_COMPLETED();
             }
         }
 
         private void HandleDeath()
         {
             _scoreService.AddScore(_enemyType);
-            OnPathCompleted();
+            OnPath_COMPLETED();
         }
 
         private void Update()
@@ -66,7 +69,7 @@ namespace Gameplay.Enemies
             _health.OnDeath -= HandleDeath;
         }
 
-        public void OnPathCompleted()
+        public void OnPath_COMPLETED()
         {
             OnPathCompletedEvent?.Invoke();
         }

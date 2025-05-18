@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Gameplay.Enemies.States;
 using Gameplay.Enemies.Static_Data;
 using Gameplay.Levels;
-using Gameplay.Player;
 using UnityEngine;
 using Utils;
 using Zenject;
@@ -17,15 +16,12 @@ namespace Gameplay.Enemies.Factory
         private readonly SpawnSettings _spawnSettings;
         private readonly ILevelDataService _levelDataService;
         private readonly DiContainer _container;
-        private readonly HealthService _playerHealthService;
 
-        public EnemyFactory(DiContainer container, SpawnSettings spawnSettings, ILevelDataService levelDataService, 
-            HealthService playerHealthService)
+        public EnemyFactory(DiContainer container, SpawnSettings spawnSettings, ILevelDataService levelDataService)
         {
             _container = container;
             _spawnSettings = spawnSettings;
             _levelDataService = levelDataService;
-            _playerHealthService = playerHealthService;
             _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
@@ -42,7 +38,7 @@ namespace Gameplay.Enemies.Factory
 
             EnemyStateMachine stateMachine = new EnemyStateMachine();
             stateMachine.AddState(new MoveState(stateMachine, blackboard, enemy.gameObject));
-            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy.gameObject, _playerHealthService));
+            stateMachine.AddState(new AttackState(stateMachine, blackboard, enemy.gameObject, _levelDataService));
             stateMachine.AddState(new CompleteState(stateMachine, blackboard, enemy.gameObject));
             stateMachine.SetState<MoveState>();
 
