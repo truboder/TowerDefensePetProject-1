@@ -2,6 +2,7 @@ using System.Collections;
 using Gameplay.Enemies.Static_Data;
 using UnityEngine;
 using Common.Coroutines;
+using Gameplay.Enemies.Factory;
 using Zenject;
 
 namespace Gameplay.Enemies
