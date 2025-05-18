@@ -45,15 +45,6 @@ namespace Infrastructure
 
         private void BindCastleServices()
         {
-            if (_castleSettings == null)
-            {
-                Debug.LogError("CastleSettings is null in GameplayLevelInstaller!");
-            }
-            else
-            {
-                Debug.Log("CastleSettings assigned: " + _castleSettings.name);
-            }
-            
             Container.BindInterfacesAndSelfTo<CastleSettings>().FromInstance(_castleSettings).AsSingle().NonLazy();
             Container.Bind<ICastleFactory>().To<CastleFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CastleSystem>().AsSingle().NonLazy();

@@ -1,4 +1,3 @@
-// Static_Data/UI/CastleHealthUI.cs
 using DG.Tweening;
 using Gameplay.PlayerCastle;
 using UnityEngine;

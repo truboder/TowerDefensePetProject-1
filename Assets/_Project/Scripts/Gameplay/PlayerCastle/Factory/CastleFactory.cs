@@ -10,7 +10,7 @@ namespace Gameplay.PlayerCastle.Factory
         private readonly DiContainer _container;
         private readonly CastleSettings _settings;
         private readonly ComponentPool<Castle> _pool;
-
+        
         public CastleFactory(DiContainer container, CastleSettings settings)
         {
             _container = container;
