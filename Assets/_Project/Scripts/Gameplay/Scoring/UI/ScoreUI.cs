@@ -1,19 +1,18 @@
 using DG.Tweening;
-using Gameplay.Scoring;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Static_Data.UI
+namespace Gameplay.Scoring.UI
 {
     public class ScoreUI : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
         
-        private ScoreService _scoreService;
+        private IScoreService _scoreService;
 
         [Inject]
-        public void Construct(ScoreService scoreService)
+        public void Construct(IScoreService scoreService)
         {
             _scoreService = scoreService;
         }

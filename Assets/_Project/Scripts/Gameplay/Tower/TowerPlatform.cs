@@ -1,5 +1,5 @@
 using Gameplay.Tower.Factory;
-using Static_Data.UI;
+using Gameplay.Tower.UI;
 using UnityEngine;
 using Zenject;
 
@@ -7,12 +7,12 @@ namespace Gameplay.Tower
 {
     public class TowerPlatform : MonoBehaviour
     {
-        private TowerFactory _towerFactory;
+        private ITowerFactory _towerFactory;
         private BuildTowerUI _buildTowerUI;
         private bool _hasTower = false;
 
         [Inject]
-        public void Construct(TowerFactory towerFactory, BuildTowerUI buildTowerUI)
+        public void Construct(ITowerFactory towerFactory, BuildTowerUI buildTowerUI)
         {
             _towerFactory = towerFactory;
             _buildTowerUI = buildTowerUI;

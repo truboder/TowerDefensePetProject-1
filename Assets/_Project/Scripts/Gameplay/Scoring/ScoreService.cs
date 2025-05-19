@@ -1,9 +1,9 @@
 using System;
-using Gameplay.Enemies.Static_Data; 
+using Gameplay.Enemies.Static_Data;
 
 namespace Gameplay.Scoring
 {
-    public class ScoreService
+    public class ScoreService : IScoreService
     {
         private readonly ScoreSettings _scoreSettings;
         private int _currentScore;
@@ -16,6 +16,12 @@ namespace Gameplay.Scoring
         {
             _scoreSettings = scoreSettings;
             _currentScore = _startingScore;
+        }
+
+        public void AddScore(int amount)
+        {
+            _currentScore += amount;
+            OnScoreChanged?.Invoke(_currentScore);
         }
 
         public void AddScore(EnemyType enemyType)
@@ -33,8 +39,13 @@ namespace Gameplay.Scoring
                 OnScoreChanged?.Invoke(_currentScore);
                 return true;
             }
-
             return false;
+        }
+
+        public void ResetScore()
+        {
+            _currentScore = _startingScore;
+            OnScoreChanged?.Invoke(_currentScore);
         }
     }
 }

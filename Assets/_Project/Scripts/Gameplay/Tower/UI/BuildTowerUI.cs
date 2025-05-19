@@ -1,12 +1,11 @@
 using Gameplay.Scoring;
-using Gameplay.Tower;
 using Gameplay.Tower.StaticData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Static_Data.UI
+namespace Gameplay.Tower.UI
 {
     public class BuildTowerUI : MonoBehaviour
     {
@@ -15,11 +14,11 @@ namespace Static_Data.UI
         [SerializeField] private Button _closeButton;
 
         private TowerPlatform _currentPlatform;
-        private ScoreService _scoreService;
+        private IScoreService _scoreService;
         private TowerSettings _towerSettings;
 
         [Inject]
-        public void Construct(ScoreService scoreService, TowerSettings towerSettings)
+        public void Construct(IScoreService scoreService, TowerSettings towerSettings)
         {
             _scoreService = scoreService;
             _towerSettings = towerSettings;

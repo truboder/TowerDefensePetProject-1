@@ -3,6 +3,7 @@ using Gameplay.Levels;
 using Gameplay.Scoring;
 using Gameplay.Enemies.States;
 using Gameplay.Enemies.Static_Data;
+using Gameplay.HealthSystem;
 using UnityEngine;
 using Zenject;
 
@@ -13,7 +14,7 @@ namespace Gameplay.Enemies
         private EnemyStateMachine _stateMachine;
         private Blackboard _blackboard;
         private Health _health;
-        private ScoreService _scoreService;
+        private IScoreService _scoreService;
         private ILevelDataService _levelDataService;
         private EnemyType _enemyType = EnemyType.DefaultEnemy;
 
@@ -22,7 +23,7 @@ namespace Gameplay.Enemies
         public EnemyType EnemyType => _enemyType;
 
         [Inject]
-        public void Construct(ScoreService scoreService, ILevelDataService levelDataService)
+        public void Construct(IScoreService scoreService, ILevelDataService levelDataService)
         {
             _scoreService = scoreService;
             _levelDataService = levelDataService;

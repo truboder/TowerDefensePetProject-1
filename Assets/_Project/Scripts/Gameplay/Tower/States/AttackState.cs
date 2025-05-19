@@ -1,5 +1,5 @@
 using Gameplay.Enemies;
-using Gameplay.Tower.Projectiles;
+using Gameplay.Tower.Projectiles.Factory;
 using Gameplay.Tower.StaticData;
 using UnityEngine;
 
@@ -9,11 +9,11 @@ namespace Gameplay.Tower.States
     {
         private const string TargetKey = "Target";
         
-        private readonly ProjectileFactory _projectileFactory;
+        private readonly IProjectileFactory _projectileFactory;
         private readonly TowerSettings _settings;
 
         public AttackState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject owner, 
-            ProjectileFactory projectileFactory, TowerSettings settings)
+            IProjectileFactory projectileFactory, TowerSettings settings)
             : base(stateMachine, blackboard, owner)
         {
             _projectileFactory = projectileFactory;
@@ -27,12 +27,10 @@ namespace Gameplay.Tower.States
 
         public override void Update()
         {
-
         }
 
         public override void Exit()
         {
-
         }
 
         private void Fire()

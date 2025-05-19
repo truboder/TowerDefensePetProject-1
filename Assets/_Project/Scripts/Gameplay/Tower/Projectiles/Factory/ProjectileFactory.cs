@@ -2,9 +2,9 @@ using Gameplay.Tower.StaticData;
 using Utils;
 using Zenject;
 
-namespace Gameplay.Tower.Projectiles
+namespace Gameplay.Tower.Projectiles.Factory
 {
-    public class ProjectileFactory
+    public class ProjectileFactory : IProjectileFactory
     {
         private readonly ComponentPool<Projectile> _pool;
         private readonly TowerSettings _settings;

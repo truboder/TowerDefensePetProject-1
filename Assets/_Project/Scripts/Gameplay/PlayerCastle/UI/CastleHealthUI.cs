@@ -1,11 +1,10 @@
 using DG.Tweening;
-using Gameplay.PlayerCastle;
 using Gameplay.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Static_Data.UI
+namespace Gameplay.PlayerCastle.UI
 {
     public class CastleHealthUI : MonoBehaviour
     {
@@ -48,14 +47,20 @@ namespace Static_Data.UI
 
         private void OnDisable()
         {
-            _castle.Health.OnHealthChanged -= UpdateHealthBar;
-            _castle.Health.OnDamageTaken -= PlayPulseAnimation;
+            if (_castle != null && _castle.Health != null)
+            {
+                _castle.Health.OnHealthChanged -= UpdateHealthBar;
+                _castle.Health.OnDamageTaken -= PlayPulseAnimation;
+            }
         }
         
         private void SubscribeToCastleEvents()
         {
-            _castle.Health.OnHealthChanged += UpdateHealthBar;
-            _castle.Health.OnDamageTaken += PlayPulseAnimation;
+            if (_castle != null && _castle.Health != null)
+            {
+                _castle.Health.OnHealthChanged += UpdateHealthBar;
+                _castle.Health.OnDamageTaken += PlayPulseAnimation;
+            }
         }
 
         private void UpdateHealthBar(int health)

@@ -1,3 +1,4 @@
+using Gameplay.HealthSystem;
 using Gameplay.Scoring;
 using UnityEngine;
 using Zenject;
@@ -7,12 +8,12 @@ namespace Gameplay.PlayerCastle
     public class Castle : MonoBehaviour
     {
         private Health _health;
-        private ScoreService _scoreService;
+        private IScoreService _scoreService;
 
         public Health Health => _health;
 
         [Inject]
-        public void Construct(ScoreService scoreService)
+        public void Construct(IScoreService scoreService)
         {
             _scoreService = scoreService;
         }

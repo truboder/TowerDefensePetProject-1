@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Gameplay.Tower.Projectiles;
+using Gameplay.Tower.Projectiles.Factory;
 using Gameplay.Tower.StaticData;
 using Zenject;
 
@@ -8,10 +8,10 @@ namespace Gameplay.Tower
     public class TowerSystem : ITickable
     {
         private readonly List<Tower> _towers = new List<Tower>();
-        private readonly ProjectileFactory _projectileFactory;
+        private readonly IProjectileFactory _projectileFactory;
         private readonly TowerSettings _towerSettings;
 
-        public TowerSystem(ProjectileFactory projectileFactory, TowerSettings towerSettings)
+        public TowerSystem(IProjectileFactory projectileFactory, TowerSettings towerSettings)
         {
             _projectileFactory = projectileFactory;
             _towerSettings = towerSettings;

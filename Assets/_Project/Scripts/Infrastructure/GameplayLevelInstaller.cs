@@ -1,4 +1,3 @@
-// Infrastructure/GameplayLevelInstaller.cs
 using Gameplay.Enemies;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
@@ -7,15 +6,17 @@ using Gameplay.Levels;
 using Gameplay.Scoring;
 using Gameplay.Tower;
 using Gameplay.Tower.Factory;
-using Gameplay.Tower.Projectiles;
 using Gameplay.Tower.StaticData;
 using Gameplay.PlayerCastle;
 using Gameplay.PlayerCastle.Factory;
 using Gameplay.PlayerCastle.StaticData;
-using Static_Data.UI;
+using Gameplay.PlayerCastle.UI;
+using Gameplay.Scoring.UI;
+using Gameplay.Tower.Projectiles.Factory;
+using Gameplay.Tower.UI;
 using UnityEngine;
 using Zenject;
-    
+
 namespace Infrastructure
 {
     public class GameplayLevelInstaller : MonoInstaller
@@ -61,16 +62,16 @@ namespace Infrastructure
         private void BindTowerFeature()
         {
             Container.BindInterfacesAndSelfTo<TowerSettings>().FromInstance(_towerSettings).AsSingle().NonLazy();
-            Container.Bind<ProjectileFactory>().AsSingle().NonLazy();
+            Container.Bind<IProjectileFactory>().To<ProjectileFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerSystem>().AsSingle().NonLazy();
-            Container.Bind<TowerFactory>().AsSingle().NonLazy();
+            Container.Bind<ITowerFactory>().To<TowerFactory>().AsSingle().NonLazy();
             Container.Bind<BuildTowerUI>().FromInstance(_buildTowerUI).AsSingle().NonLazy();
         }
 
         private void BindScoringFeature()
         {
             Container.BindInterfacesAndSelfTo<ScoreSettings>().FromInstance(_scoreSettings).AsSingle().NonLazy();
-            Container.Bind<ScoreService>().AsSingle().NonLazy();
+            Container.Bind<IScoreService>().To<ScoreService>().AsSingle().NonLazy();
             Container.Bind<ScoreUI>().FromInstance(_scoreUI).AsSingle().NonLazy();
         }
 

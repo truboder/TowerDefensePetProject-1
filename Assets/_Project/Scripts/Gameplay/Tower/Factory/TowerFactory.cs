@@ -1,5 +1,6 @@
 using Gameplay.Enemies;
 using Gameplay.Tower.Projectiles;
+using Gameplay.Tower.Projectiles.Factory;
 using Gameplay.Tower.States;
 using Gameplay.Tower.StaticData;
 using UnityEngine;
@@ -7,14 +8,14 @@ using Zenject;
 
 namespace Gameplay.Tower.Factory
 {
-    public class TowerFactory
+    public class TowerFactory : ITowerFactory
     {
         private readonly TowerSettings _settings;
-        private readonly ProjectileFactory _projectileFactory;
+        private readonly IProjectileFactory _projectileFactory;
         private readonly DiContainer _container;
         private readonly TowerSystem _towerSystem;
 
-        public TowerFactory(DiContainer container, TowerSettings settings, ProjectileFactory projectileFactory, TowerSystem towerSystem)
+        public TowerFactory(DiContainer container, TowerSettings settings, IProjectileFactory projectileFactory, TowerSystem towerSystem)
         {
             _container = container;
             _settings = settings;
