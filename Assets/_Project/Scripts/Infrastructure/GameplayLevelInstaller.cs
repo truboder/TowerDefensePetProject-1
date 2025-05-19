@@ -41,43 +41,43 @@ namespace Infrastructure
 
         private void BindLevelServices()
         {
-            Container.Bind<ILevelDataService>().To<LevelDataService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<LevelDataService>().AsSingle().NonLazy();
         }
 
         private void BindCastleServices()
         {
             Container.BindInterfacesAndSelfTo<CastleSettings>().FromInstance(_castleSettings).AsSingle().NonLazy();
-            Container.Bind<ICastleFactory>().To<CastleFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CastleFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<CastleSystem>().AsSingle().NonLazy();
-            Container.Bind<CastleHealthUI>().FromInstance(_castleHealthUI).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CastleHealthUI>().FromInstance(_castleHealthUI).AsSingle().NonLazy();
         }
 
         private void BindEnemyFeature()
         {
             Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
-            Container.Bind<IEnemyFactory>().To<EnemyFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SpawnSystem>().AsSingle().NonLazy();
         }
 
         private void BindTowerFeature()
         {
             Container.BindInterfacesAndSelfTo<TowerSettings>().FromInstance(_towerSettings).AsSingle().NonLazy();
-            Container.Bind<IProjectileFactory>().To<ProjectileFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ProjectileFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<TowerSystem>().AsSingle().NonLazy();
-            Container.Bind<ITowerFactory>().To<TowerFactory>().AsSingle().NonLazy();
-            Container.Bind<BuildTowerUI>().FromInstance(_buildTowerUI).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<TowerFactory>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<BuildTowerUI>().FromInstance(_buildTowerUI).AsSingle().NonLazy();
         }
 
         private void BindScoringFeature()
         {
             Container.BindInterfacesAndSelfTo<ScoreSettings>().FromInstance(_scoreSettings).AsSingle().NonLazy();
-            Container.Bind<IScoreService>().To<ScoreService>().AsSingle().NonLazy();
-            Container.Bind<ScoreUI>().FromInstance(_scoreUI).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ScoreService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<ScoreUI>().FromInstance(_scoreUI).AsSingle().NonLazy();
         }
 
         private void BindInputFeature()
         {
-            Container.Bind<ICameraService>().To<CameraService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CameraService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ClickSystem>().AsSingle().NonLazy();
         }
     }
