@@ -5,6 +5,7 @@ using Gameplay.Scoring;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using Zenject;
+using System.Threading;
 
 namespace AdvertisementSystem
 {
@@ -15,6 +16,7 @@ namespace AdvertisementSystem
         private ICoroutineRunService _coroutineRunner;
         private string _adUnitId;
         private bool _isAdLoaded;
+        private CancellationTokenSource _cts;
 
         [Inject]
         public void Construct(AdsSettings settings, IScoreService scoreService, ICoroutineRunService coroutineRunner)
@@ -22,10 +24,14 @@ namespace AdvertisementSystem
             _settings = settings;
             _scoreService = scoreService;
             _coroutineRunner = coroutineRunner;
+            _cts = new CancellationTokenSource();
         }
 
         private void Awake()
         {
+            if (!gameObject.activeInHierarchy)
+                return;
+
 #if UNITY_IOS
             _adUnitId = _settings.IOSInterstitialAdUnitId;
 #elif UNITY_ANDROID
@@ -35,19 +41,18 @@ namespace AdvertisementSystem
 #endif
 
             if (string.IsNullOrEmpty(_adUnitId))
-            {
                 return;
-            }
 
             _coroutineRunner.StartCoroutine(LoadAdAsync().ToCoroutine());
         }
 
         public async UniTask LoadAdAsync()
         {
+            if (!gameObject.activeInHierarchy || _cts.Token.IsCancellationRequested)
+                return;
+
             if (!Advertisement.isInitialized)
-            {
-                await WaitForAdsInitializationAsync();
-            }
+                await WaitForAdsInitializationAsync(_cts.Token);
 
             Advertisement.Load(_adUnitId, this);
             await UniTask.Yield();
@@ -55,22 +60,24 @@ namespace AdvertisementSystem
 
         public async UniTask ShowAdAsync()
         {
+            if (!gameObject.activeInHierarchy || _cts.Token.IsCancellationRequested)
+                return;
+
             if (!_isAdLoaded)
             {
                 await LoadAdAsync();
                 return;
             }
 
+            Time.timeScale = 0f;
             Advertisement.Show(_adUnitId, this);
             await UniTask.Yield();
         }
 
-        private async UniTask WaitForAdsInitializationAsync()
+        private async UniTask WaitForAdsInitializationAsync(CancellationToken cancellationToken)
         {
-            while (!Advertisement.isInitialized)
-            {
+            while (!Advertisement.isInitialized && !cancellationToken.IsCancellationRequested)
                 await UniTask.Yield();
-            }
         }
 
         public void OnUnityAdsAdLoaded(string adUnitId)
@@ -85,21 +92,30 @@ namespace AdvertisementSystem
 
         public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
         {
+            Time.timeScale = 1f;
             if (showCompletionState == UnityAdsShowCompletionState.COMPLETED)
-            {
                 _scoreService.AddScore(_settings.InterstitialRewardScore);
-            }
 
             _isAdLoaded = false;
-            _coroutineRunner.StartCoroutine(LoadAdAsync().ToCoroutine());
+            if (gameObject.activeInHierarchy)
+                _coroutineRunner.StartCoroutine(LoadAdAsync().ToCoroutine());
         }
 
         public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
         {
+            Time.timeScale = 1f;
             _isAdLoaded = false;
         }
 
-        public void OnUnityAdsShowStart(string adUnitId) => Debug.Log($"Interstitial: Ad {adUnitId} started.");
-        public void OnUnityAdsShowClick(string adUnitId) => Debug.Log($"Interstitial: Ad {adUnitId} clicked.");
+        public void OnUnityAdsShowStart(string adUnitId) { }
+        public void OnUnityAdsShowClick(string adUnitId) { }
+
+        private void OnDestroy()
+        {
+            _cts?.Cancel();
+            _cts?.Dispose();
+            _cts = null;
+            Time.timeScale = 1f;
+        }
     }
 }
