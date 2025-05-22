@@ -1,3 +1,5 @@
+using AdvertisementSystem;
+using AdvertisementSystem.Static_Data;
 using Gameplay.Enemies;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
@@ -6,13 +8,13 @@ using Gameplay.Levels;
 using Gameplay.Scoring;
 using Gameplay.Tower;
 using Gameplay.Tower.Factory;
+using Gameplay.Tower.Projectiles.Factory;
 using Gameplay.Tower.StaticData;
 using Gameplay.PlayerCastle;
 using Gameplay.PlayerCastle.Factory;
 using Gameplay.PlayerCastle.StaticData;
 using Gameplay.PlayerCastle.UI;
 using Gameplay.Scoring.UI;
-using Gameplay.Tower.Projectiles.Factory;
 using Gameplay.Tower.UI;
 using UnityEngine;
 using Zenject;
@@ -25,9 +27,14 @@ namespace Infrastructure
         [SerializeField] private TowerSettings _towerSettings;
         [SerializeField] private ScoreSettings _scoreSettings;
         [SerializeField] private CastleSettings _castleSettings;
+        [SerializeField] private AdsSettings _adsSettings;
         [SerializeField] private CastleHealthUI _castleHealthUI;
         [SerializeField] private ScoreUI _scoreUI;
         [SerializeField] private BuildTowerUI _buildTowerUI;
+        [SerializeField] private AdsInitializer _adsInitializer;
+        [SerializeField] private Banner _banner;
+        [SerializeField] private Interstitial _interstitial;
+        [SerializeField] private AdButtonHandler _adButtonHandler;
 
         public override void InstallBindings()
         {
@@ -37,6 +44,7 @@ namespace Infrastructure
             BindTowerFeature();
             BindScoringFeature();
             BindInputFeature();
+            BindAdsFeature();
         }
 
         private void BindLevelServices()
@@ -79,6 +87,15 @@ namespace Infrastructure
         {
             Container.BindInterfacesAndSelfTo<CameraService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<ClickSystem>().AsSingle().NonLazy();
+        }
+
+        private void BindAdsFeature()
+        {
+            Container.BindInterfacesAndSelfTo<AdsSettings>().FromInstance(_adsSettings).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AdsInitializer>().FromInstance(_adsInitializer).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<Banner>().FromInstance(_banner).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<Interstitial>().FromInstance(_interstitial).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AdButtonHandler>().FromInstance(_adButtonHandler).AsSingle().NonLazy();
         }
     }
 }

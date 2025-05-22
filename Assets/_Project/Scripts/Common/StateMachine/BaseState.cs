@@ -1,5 +1,3 @@
-using Gameplay.Enemies;
-
 namespace Common.StateMachine
 {
     public abstract class BaseState

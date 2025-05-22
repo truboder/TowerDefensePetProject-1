@@ -1,44 +1,68 @@
+using AdvertisementSystem.Static_Data;
+using Cysharp.Threading.Tasks;
+using Common.Coroutines;
 using UnityEngine;
 using UnityEngine.Advertisements;
+using Zenject;
 
 namespace AdvertisementSystem
 {
     public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     {
-        [SerializeField] string _androidGameId;
-        [SerializeField] string _iOSGameId;
-        [SerializeField] bool _testMode = true;
+        private AdsSettings _settings;
+        private ICoroutineRunService _coroutineRunner;
         private string _gameId;
- 
-        void Awake()
+
+        [Inject]
+        public void Construct(AdsSettings settings, ICoroutineRunService coroutineRunner)
         {
-            InitializeAds();
+            _settings = settings;
+            _coroutineRunner = coroutineRunner;
         }
- 
-        public void InitializeAds()
+
+        private void Awake()
+        {
+            _coroutineRunner.StartCoroutine(InitializeAdsAsync().ToCoroutine());
+        }
+
+        private async UniTask InitializeAdsAsync()
         {
 #if UNITY_IOS
-    _gameId = _iOSGameId;
+            _gameId = _settings.IOSGameId;
 #elif UNITY_ANDROID
-    _gameId = _androidGameId;
+            _gameId = _settings.AndroidGameId;
 #elif UNITY_EDITOR
-            _gameId = _androidGameId; //Only for testing the functionality in the Editor
+            _gameId = _settings.AndroidGameId;
 #endif
- 
-            if (!UnityEngine.Advertisements.Advertisement.isInitialized && UnityEngine.Advertisements.Advertisement.isSupported)
+
+            if (string.IsNullOrEmpty(_gameId))
             {
-                UnityEngine.Advertisements.Advertisement.Initialize(_gameId, _testMode, this);
+                return;
+            }
+
+            if (!Advertisement.isInitialized && Advertisement.isSupported)
+            {
+                Advertisement.Initialize(_gameId, _settings.TestMode, this);
+                await WaitForInitializationAsync();
+            }
+        }
+
+        private async UniTask WaitForInitializationAsync()
+        {
+            while (!Advertisement.isInitialized)
+            {
+                await UniTask.Yield();
             }
         }
 
         public void OnInitializationComplete()
         {
-            Debug.Log("Unity Ads initialization complete.");
+
         }
- 
+
         public void OnInitializationFailed(UnityAdsInitializationError error, string message)
         {
-            Debug.Log($"Unity Ads Initialization Failed: {error.ToString()} - {message}");
+
         }
     }
 }

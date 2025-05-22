@@ -1,6 +1,5 @@
 using Common;
 using Common.StateMachine;
-using Gameplay.Enemies;
 using UnityEngine;
 
 namespace Gameplay.Tower.States
