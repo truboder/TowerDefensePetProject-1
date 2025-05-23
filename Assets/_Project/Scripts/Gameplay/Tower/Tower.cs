@@ -12,6 +12,8 @@ namespace Gameplay.Tower
         private const string EnemiesInRangeKey = "EnemiesInRange";
         
         [SerializeField] private SphereCollider _triggerCollider;
+        [SerializeField] private Transform _gun;
+        [SerializeField] private Transform _shotPoint;
         
         private TowerStateMachine _stateMachine;
         private Blackboard _blackboard;
@@ -27,7 +29,8 @@ namespace Gameplay.Tower
             _towerSystem = towerSystem;
         }
         
-        // public Vector3 GetPosition => transform.position;
+        public Transform Gun => _gun;
+        public Transform ShotPoint => _shotPoint;
         public TowerStateMachine StateMachine => _stateMachine;
 
         public void Initialize(TowerStateMachine stateMachine, Blackboard blackboard)
@@ -48,9 +51,7 @@ namespace Gameplay.Tower
         private void OnTriggerExit(Collider other)
         {
             if (!other.TryGetComponent<Enemy>(out var enemy))
-            {
                 return;
-            }
             
             _enemiesInRange.Remove(enemy);
             OnEnemyExited?.Invoke(enemy);

@@ -8,7 +8,7 @@ namespace Gameplay.Enemies.States
     {
         private const int MinWaypointsCount = 1;
         private const float WaypointBorder = 0.1f;
-        private const float MoveSpeed = 10f;
+        private const float MoveSpeed = 5f;
         private const float RotationSpeed = 10f;
         
         private const string WaypointsKey = "Waypoints";
@@ -16,10 +16,12 @@ namespace Gameplay.Enemies.States
         private List<Vector3> _waypoints;
         private int _currentWaypointIndex;
         private bool _hasPath;
+        private Animator _animator;
 
         public MoveState(EnemyStateMachine stateMachine, Blackboard blackboard, GameObject owner)
             : base(stateMachine, blackboard, owner)
         {
+            _animator = owner.GetComponentInChildren<Animator>();
         }
 
         public override void Enter()
@@ -33,6 +35,11 @@ namespace Gameplay.Enemies.States
             _currentWaypointIndex = 1;
             _hasPath = _waypoints != null && _waypoints.Count > MinWaypointsCount;
             Owner.transform.position = _waypoints[0];
+
+            if (_animator != null)
+            {
+                _animator.SetBool("IsMoving", true);
+            }
         }
 
         public override void Update()
@@ -71,7 +78,10 @@ namespace Gameplay.Enemies.States
 
         public override void Exit()
         {
-
+            if (_animator != null)
+            {
+                _animator.SetBool("IsMoving", false);
+            }
         }
     }
 }

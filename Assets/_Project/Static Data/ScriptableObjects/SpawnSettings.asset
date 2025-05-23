@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84a8029abf711640905521cd2e01a8f, type: 3}
   m_Name: SpawnSettings
   m_EditorClassIdentifier: 
-  DefaultEnemyPrefab: {fileID: 7905898922593811730, guid: f7249dab8035dba438785c5653c03041, type: 3}
+  DefaultEnemyPrefab: {fileID: 8564114784622459093, guid: 3ec4295a7271c5a47ad5b502d5eb0102, type: 3}
   InitialPoolSize: 10
   MaxPoolSize: 50
   Waves:

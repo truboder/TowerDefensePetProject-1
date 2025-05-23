@@ -7,7 +7,7 @@ namespace Infrastructure
     {
         public override void InstallBindings()
         {
-            Container.Bind<ICoroutineRunService>().To<CoroutineRunService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<CoroutineRunService>().AsSingle().NonLazy();
         }
     }
 }
