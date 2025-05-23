@@ -46,7 +46,7 @@ namespace Gameplay.Tower.States
                 if (direction != Vector3.zero)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
-                    targetRotation *= Quaternion.Euler(0, 200, 0);
+                    targetRotation *= Quaternion.Euler(0, 220, 0);
                     tower.Gun.rotation = Quaternion.Slerp(tower.Gun.rotation, targetRotation, RotationSpeed * Time.unscaledDeltaTime);
                 }
             }
