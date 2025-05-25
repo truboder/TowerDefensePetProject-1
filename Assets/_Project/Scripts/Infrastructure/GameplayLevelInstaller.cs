@@ -31,9 +31,6 @@ namespace Infrastructure
         [SerializeField] private CastleHealthUI _castleHealthUI;
         [SerializeField] private ScoreUI _scoreUI;
         [SerializeField] private BuildTowerUI _buildTowerUI;
-        [SerializeField] private AdsInitializer _adsInitializer;
-        [SerializeField] private Banner _banner;
-        [SerializeField] private Interstitial _interstitial;
         [SerializeField] private AdButtonHandler _adButtonHandler;
 
         public override void InstallBindings()
@@ -92,9 +89,7 @@ namespace Infrastructure
         private void BindAdsFeature()
         {
             Container.BindInterfacesAndSelfTo<AdsSettings>().FromInstance(_adsSettings).AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<AdsInitializer>().FromInstance(_adsInitializer).AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<Banner>().FromInstance(_banner).AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<Interstitial>().FromInstance(_interstitial).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<AdsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<AdButtonHandler>().FromInstance(_adButtonHandler).AsSingle().NonLazy();
         }
     }
