@@ -4086,7 +4086,7 @@ MonoBehaviour:
   _scoreSettings: {fileID: 11400000, guid: d96e6776bbcab884b8ab63cece1e90ff, type: 2}
   _castleSettings: {fileID: 11400000, guid: c287f681dcd40fd4b94d5dfb523c69a3, type: 2}
   _adsSettings: {fileID: 11400000, guid: b26dbaa6428fc9b4789e78d51ebe4ed6, type: 2}
-  _castleHealthUI: {fileID: 0}
+  _castleHealthUI: {fileID: 1234179627}
   _scoreUI: {fileID: 14552439}
   _buildTowerUI: {fileID: 1674104944}
   _adsInitializer: {fileID: 1405140277}
