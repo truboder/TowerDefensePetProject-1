@@ -37,12 +37,12 @@ namespace Gameplay.Tower.States
             }
             
             var tower = Owner.GetComponent<Tower>();
+            
             if (tower.Gun != null)
             {
                 Vector3 direction = target.transform.position - tower.Gun.position;
                 direction.y = 0;
                 
-                Debug.Log($"AttackState: Direction to target = {direction}");
                 if (direction != Vector3.zero)
                 {
                     Quaternion targetRotation = Quaternion.LookRotation(direction);
@@ -52,6 +52,7 @@ namespace Gameplay.Tower.States
             }
 
             _fireTimer += Time.unscaledDeltaTime;
+            
             if (_fireTimer >= 1f / _settings.FireRate)
             {
                 Fire();

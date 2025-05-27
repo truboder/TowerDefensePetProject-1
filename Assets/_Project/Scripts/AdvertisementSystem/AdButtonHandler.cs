@@ -22,8 +22,7 @@ namespace AdvertisementSystem
 
         private void Awake()
         {
-            if (_showAdButton != null)
-                _showAdButton.onClick.AddListener(OnShowAdButtonClicked);
+            _showAdButton.onClick.AddListener(OnShowAdButtonClicked);
         }
 
         private void OnShowAdButtonClicked()
@@ -33,8 +32,7 @@ namespace AdvertisementSystem
 
         private void OnDestroy()
         {
-            if (_showAdButton != null)
-                _showAdButton.onClick.RemoveListener(OnShowAdButtonClicked);
+            _showAdButton.onClick.RemoveListener(OnShowAdButtonClicked);
         }
     }
 }

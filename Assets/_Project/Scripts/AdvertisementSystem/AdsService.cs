@@ -64,12 +64,7 @@ namespace AdvertisementSystem
             if (!_isBannerLoaded)
                 return;
 
-            BannerOptions options = new BannerOptions
-            {
-                // clickCallback = () => Debug.Log("Banner: Banner clicked."),
-                // showCallback = () => Debug.Log("Banner: Banner shown callback."),
-                // hideCallback = () => Debug.Log("Banner: Banner hidden callback.")
-            };
+            BannerOptions options = new BannerOptions { };
 
             Advertisement.Banner.Show(_bannerAdUnitId, options);
         }
