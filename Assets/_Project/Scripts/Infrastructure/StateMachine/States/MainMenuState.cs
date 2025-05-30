@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Infrastructure.StateMachine.States
 {
@@ -8,20 +9,18 @@ namespace Infrastructure.StateMachine.States
 
         public override void Enter()
         {
-
+            if (SceneManager.GetActiveScene().name != "MainMenuScene")
+            {
+                SceneManager.LoadScene("MainMenuScene");
+            }
         }
 
         public override void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StateMachine.Enter<GameplayState>();
-            }
         }
 
         public override void Exit()
         {
-
         }
     }
 }

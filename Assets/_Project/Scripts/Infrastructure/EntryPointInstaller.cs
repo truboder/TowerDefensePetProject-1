@@ -18,6 +18,7 @@ namespace Infrastructure
 
             var gameStateMachine = Container.Resolve<IGameStateMachine>();
             gameStateMachine.AddState(new BootstrapState(gameStateMachine));
+            gameStateMachine.AddState(new MainMenuState(gameStateMachine));
             gameStateMachine.AddState(new GameplayState(gameStateMachine));
         }
     }

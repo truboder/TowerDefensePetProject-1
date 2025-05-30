@@ -8,14 +8,13 @@ namespace Infrastructure.StateMachine.States
 
         public override void Enter()
         {
-            StateMachine.Enter<GameplayState>();
+            StateMachine.Enter<MainMenuState>();
         }
 
         public override void Update() { }
 
         public override void Exit()
         {
-
         }
     }
 }
