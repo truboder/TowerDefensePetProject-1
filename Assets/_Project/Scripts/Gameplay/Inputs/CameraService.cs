@@ -11,6 +11,8 @@ namespace Gameplay.Inputs
             _mainCamera = Camera.main;
         }
 
+        public Camera GetMainCamera() => _mainCamera;
+
         public Ray GetRay(Vector3 screenPosition)
         {
             if (_mainCamera == null)

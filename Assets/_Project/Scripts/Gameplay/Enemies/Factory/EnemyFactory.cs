@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Common;
 using Gameplay.Enemies.States;
 using Gameplay.Enemies.Static_Data;
+using Gameplay.Enemies.UI;
+using Gameplay.Enemies.UI.Factory;
 using Gameplay.HealthSystem;
 using Gameplay.Levels;
 using UnityEngine;
@@ -18,12 +20,14 @@ namespace Gameplay.Enemies.Factory
         private readonly SpawnSettings _spawnSettings;
         private readonly ILevelDataService _levelDataService;
         private readonly DiContainer _container;
+        private readonly EnemyHealthBarFactory _healthBarFactory;
 
-        public EnemyFactory(DiContainer container, SpawnSettings spawnSettings, ILevelDataService levelDataService)
+        public EnemyFactory(DiContainer container, SpawnSettings spawnSettings, ILevelDataService levelDataService, EnemyHealthBarFactory healthBarFactory)
         {
             _container = container;
             _spawnSettings = spawnSettings;
             _levelDataService = levelDataService;
+            _healthBarFactory = healthBarFactory;
             _pool = new ComponentPool<Enemy>(_spawnSettings.DefaultEnemyPrefab, _container);
         }
 
@@ -46,14 +50,17 @@ namespace Gameplay.Enemies.Factory
 
             enemy.Initialize(stateMachine, blackboard, new Health());
             enemy.SetEnemyType(enemyType);
-            enemy.OnPathCompletedEvent += () => Return(enemy);
+            
+            EnemyHealthBar healthBar = _healthBarFactory.Create(enemy);
+            enemy.OnPathCompletedEvent += () => Return(enemy, healthBar);
 
             return enemy;
         }
 
-        private void Return(Enemy enemy)
+        private void Return(Enemy enemy, EnemyHealthBar healthBar)
         {
-            enemy.OnPathCompletedEvent -= () => Return(enemy);
+            enemy.OnPathCompletedEvent -= () => Return(enemy, healthBar);
+            _healthBarFactory.Return(healthBar);
             _pool.Return(enemy);
         }
     }

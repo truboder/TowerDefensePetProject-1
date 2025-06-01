@@ -15,6 +15,7 @@ namespace Gameplay.Enemies
 
         private int _spawnedCount = 0;
         private int _currentWave = 0;
+        private bool _isSpawning = false;
 
         public SpawnSystem(SpawnSettings spawnSettings, ICoroutineRunService coroutineRunService, IEnemyFactory enemyFactory)
         {
@@ -25,11 +26,13 @@ namespace Gameplay.Enemies
 
         public void Initialize()
         {
-            StartWaveSpawning();
+
         }
 
-        private void StartWaveSpawning()
+        public void StartWaveSpawning()
         {
+            if (_isSpawning) return;
+            _isSpawning = true;
             _coroutineRunner.StartCoroutine(WaveSpawner());
         }
 

@@ -3,6 +3,7 @@ using AdvertisementSystem.Static_Data;
 using Gameplay.Enemies;
 using Gameplay.Enemies.Factory;
 using Gameplay.Enemies.Static_Data;
+using Gameplay.Enemies.UI.Factory;
 using Gameplay.Inputs;
 using Gameplay.Levels;
 using Gameplay.Scoring;
@@ -15,6 +16,7 @@ using Gameplay.PlayerCastle.Factory;
 using Gameplay.PlayerCastle.StaticData;
 using Gameplay.PlayerCastle.UI;
 using Gameplay.Scoring.UI;
+using Gameplay.SpawnUI;
 using Gameplay.Tower.UI;
 using UnityEngine;
 using Zenject;
@@ -32,6 +34,8 @@ namespace Infrastructure
         [SerializeField] private ScoreUI _scoreUI;
         [SerializeField] private BuildTowerUI _buildTowerUI;
         [SerializeField] private AdButtonHandler _adButtonHandler;
+        [SerializeField] private StartWaveButtonHandler _startWaveButtonHandler;
+        [SerializeField] private GameObject _enemyHealthBarPrefab;
 
         public override void InstallBindings()
         {
@@ -42,6 +46,7 @@ namespace Infrastructure
             BindScoringFeature();
             BindInputFeature();
             BindAdsFeature();
+            BindUI();
         }
 
         private void BindLevelServices()
@@ -60,6 +65,7 @@ namespace Infrastructure
         private void BindEnemyFeature()
         {
             Container.BindInterfacesAndSelfTo<SpawnSettings>().FromInstance(_enemySpawnSettings).AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<EnemyHealthBarFactory>().AsSingle().WithArguments(_enemyHealthBarPrefab).NonLazy();
             Container.BindInterfacesAndSelfTo<EnemyFactory>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SpawnSystem>().AsSingle().NonLazy();
         }
@@ -91,6 +97,11 @@ namespace Infrastructure
             Container.BindInterfacesAndSelfTo<AdsSettings>().FromInstance(_adsSettings).AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<AdsService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<AdButtonHandler>().FromInstance(_adButtonHandler).AsSingle().NonLazy();
+        }
+
+        private void BindUI()
+        {
+            Container.BindInterfacesAndSelfTo<StartWaveButtonHandler>().FromInstance(_startWaveButtonHandler).AsSingle().NonLazy();
         }
     }
 }
