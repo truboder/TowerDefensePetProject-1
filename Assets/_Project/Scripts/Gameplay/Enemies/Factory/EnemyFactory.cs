@@ -9,6 +9,7 @@ using Gameplay.Levels;
 using UnityEngine;
 using Utils;
 using Zenject;
+using Cysharp.Threading.Tasks;
 
 namespace Gameplay.Enemies.Factory
 {
@@ -52,9 +53,22 @@ namespace Gameplay.Enemies.Factory
             enemy.SetEnemyType(enemyType);
             
             EnemyHealthBar healthBar = _healthBarFactory.Create(enemy);
-            enemy.OnPathCompletedEvent += () => Return(enemy, healthBar);
+            enemy.OnPathCompletedEvent += () => ReturnWithDelay(enemy, healthBar);
 
             return enemy;
+        }
+
+        private async void ReturnWithDelay(Enemy enemy, EnemyHealthBar healthBar)
+        {
+            Animation animation = enemy.GetComponent<Animation>();
+
+            float dieAnimationLength = animation.GetClip("Die").length;
+            await UniTask.Delay((int)(dieAnimationLength * 1000));
+
+
+            enemy.OnPathCompletedEvent -= () => ReturnWithDelay(enemy, healthBar);
+            _healthBarFactory.Return(healthBar);
+            _pool.Return(enemy);
         }
 
         private void Return(Enemy enemy, EnemyHealthBar healthBar)

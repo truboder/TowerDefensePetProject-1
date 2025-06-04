@@ -8,6 +8,7 @@ namespace Gameplay.HealthSystem
         private readonly int _maxHealth;
         public int CurrentHealth { get; private set; }
         public bool IsAlive => CurrentHealth > 0;
+        public int MaxHealth => _maxHealth;
 
         public event Action<int> OnHealthChanged;
         public event Action OnDamageTaken;

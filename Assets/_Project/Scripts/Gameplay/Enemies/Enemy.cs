@@ -18,6 +18,7 @@ namespace Gameplay.Enemies
         private IScoreService _scoreService;
         private ILevelDataService _levelDataService;
         private EnemyType _enemyType = EnemyType.DefaultEnemy;
+        private Animation _animation;
 
         public event Action OnPathCompletedEvent;
         public Health Health => _health;
@@ -35,6 +36,8 @@ namespace Gameplay.Enemies
             _blackboard = blackboard;
             _stateMachine = stateMachine;
             _health = health;
+
+            _animation = GetComponentInChildren<Animation>();
 
             _stateMachine.OnStateChanged += HandleStateChanged;
             _health.OnDeath += HandleDeath;
@@ -56,12 +59,19 @@ namespace Gameplay.Enemies
         private void HandleDeath()
         {
             _scoreService.AddScore(_enemyType);
+            
+            _animation.Play("Die");
+
+            _stateMachine.SetState<CompleteState>();
             OnPath_COMPLETED();
         }
 
         private void Update()
         {
-            _stateMachine?.Update();
+            if (_health != null && _health.IsAlive)
+            {
+                _stateMachine?.Update();
+            }
         }
 
         private void OnDestroy()

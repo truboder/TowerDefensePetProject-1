@@ -25,16 +25,16 @@ namespace Gameplay.Enemies.UI
             gameObject.SetActive(true);
         }
 
+        private void UpdateHealthBar(int currentHealth)
+        {
+            Debug.Log($"Updating health bar: {currentHealth}/{_health.MaxHealth}");
+            _healthBarFill.fillAmount = currentHealth / (float)_health.MaxHealth;
+        }
+
         private void Update()
         {
             transform.position = _enemy.transform.position + _offset;
             transform.rotation = _mainCamera.transform.rotation;
-        }
-
-        private void UpdateHealthBar(int currentHealth)
-        {
-            float maxHealth = _health.CurrentHealth > 0 ? _health.CurrentHealth : 1;
-            _healthBarFill.fillAmount = currentHealth / maxHealth;
         }
 
         private void Hide()

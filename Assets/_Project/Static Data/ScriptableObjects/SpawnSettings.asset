@@ -17,15 +17,15 @@ MonoBehaviour:
   MaxPoolSize: 50
   Waves:
   - EnemyCount: 5
-    SpawnInterval: 0.5
+    SpawnInterval: 0.7
     DelayAfterWave: 3
     EnemyType: 0
   - EnemyCount: 4
-    SpawnInterval: 0.5
+    SpawnInterval: 0.7
     DelayAfterWave: 3
     EnemyType: 0
   - EnemyCount: 2
-    SpawnInterval: 0.5
+    SpawnInterval: 0.7
     DelayAfterWave: 3
     EnemyType: 0
   InfiniteWaves: 0
