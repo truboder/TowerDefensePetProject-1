@@ -13,7 +13,6 @@ namespace Gameplay.Tower.States
         
         private readonly IProjectileFactory _projectileFactory;
         private readonly TowerSettings _settings;
-        private float _fireTimer;
 
         public AttackState(TowerStateMachine stateMachine, Blackboard blackboard, GameObject owner, 
             IProjectileFactory projectileFactory, TowerSettings settings)
@@ -25,7 +24,6 @@ namespace Gameplay.Tower.States
 
         public override void Enter()
         {
-            _fireTimer = 0f;
         }
 
         public override void Update()
@@ -51,13 +49,8 @@ namespace Gameplay.Tower.States
                 }
             }
 
-            _fireTimer += Time.unscaledDeltaTime;
-            
-            if (_fireTimer >= 1f / _settings.FireRate)
-            {
-                Fire();
-                _fireTimer = 0f;
-            }
+            Fire();
+            StateMachine.SetState<CooldownState>();
         }
 
         public override void Exit()

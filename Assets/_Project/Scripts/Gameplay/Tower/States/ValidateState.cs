@@ -21,7 +21,6 @@ namespace Gameplay.Tower.States
 
         public override void Enter()
         {
-
         }
 
         public override void Update()
@@ -40,12 +39,20 @@ namespace Gameplay.Tower.States
                 return;
             }
             
+            float distance = Vector3.Distance(Owner.transform.position, target.transform.position);
+            
+            if (distance > _settings.Range)
+            {
+                Blackboard.TryClearData(TargetKey);
+                StateMachine.SetState<TargetSelectionState>();
+                return;
+            }
+            
             StateMachine.SetState<AttackState>();
         }
 
         public override void Exit()
         {
-
         }
     }
 }
